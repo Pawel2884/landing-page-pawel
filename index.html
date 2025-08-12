@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paweł Kwiatek - Usługi</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Rozwiń swój biznes z Pawłem Kwiatkiem</h1>
+      <p>Indywidualne podejście, konkretne rezultaty i innowacyjne rozwiązania.</p>
+      <a href="#contact" class="btn">Skontaktuj się</a>
+    </div>
+  </header>
+
+  <nav class="navbar">
+    <ul>
+      <li><a href="#services">Usługi</a></li>
+      <li><a href="#about">O mnie</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <section id="services" class="services">
+    <h2>Oferta</h2>
+    <div class="service-list">
+      <div class="service">
+        <h3>Analiza biznesowa</h3>
+        <p>Diagnoza sytuacji i identyfikacja kluczowych możliwości wzrostu.</p>
+      </div>
+      <div class="service">
+        <h3>Strategia marketingowa</h3>
+        <p>Kreowanie skutecznych kampanii, które przyciągają uwagę i sprzedają.</p>
+      </div>
+      <div class="service">
+        <h3>Szkolenia i warsztaty</h3>
+        <p>Praktyczne szkolenia nastawione na realne efekty i rozwój kompetencji.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <h2>Dlaczego ja?</h2>
+    <p>Łączę doświadczenie biznesowe z psychologią wpływu, dzięki czemu potrafię skutecznie angażować klientów i partnerów. Moim celem jest, aby Twoja firma rosła szybciej i mądrzej.</p>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Skontaktuj się</h2>
+    <p class="hook">Gotowy na kolejny krok? Napisz lub zadzwoń już teraz!</p>
+    <ul class="contact-info">
+      <li>Telefon: <a href="tel:+48000000000">+48 000 000 000</a></li>
+      <li>Email: <a href="mailto:kontakt@example.com">kontakt@example.com</a></li>
+      <li>Adres: ul. Przykładowa 1, 00-000 Warszawa</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; <span id="year"></span> Paweł Kwiatek. Wszelkie prawa zastrzeżone.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
