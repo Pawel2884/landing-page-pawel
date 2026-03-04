@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Straszny Głos</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Raleway:wght@300;400&display=swap');
+
+    :root {
+      --blood: #8b0000;
+      --fog: #1a1a2e;
+      --mist: #16213e;
+      --glow: #ff2200;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: var(--fog);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Raleway', sans-serif;
+      color: #ccc;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated fog layers */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      background: radial-gradient(ellipse at 20% 80%, rgba(139,0,0,0.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(50,0,80,0.25) 0%, transparent 60%);
+      animation: fogShift 8s ease-in-out infinite alternate;
+    }
+    body::after {
+      background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.7) 0%, transparent 70%);
+    }
+
+    @keyframes fogShift {
+      from { opacity: 0.6; transform: scale(1); }
+      to   { opacity: 1;   transform: scale(1.05); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 680px;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      color: var(--blood);
+      text-shadow: 0 0 20px var(--glow), 0 0 60px rgba(255,34,0,0.4);
+      letter-spacing: 4px;
+      animation: flicker 3s infinite;
+    }
+
+    @keyframes flicker {
+      0%,19%,21%,23%,25%,54%,56%,100% { opacity: 1; }
+      20%,22%,24%,55% { opacity: 0.4; }
+    }
+
+    .subtitle {
+      margin-top: 0.4rem;
+      font-size: 0.85rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .phrase-box {
+      margin: 2.5rem 0 1.5rem;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(139,0,0,0.4);
+      border-radius: 8px;
+      padding: 1.2rem 1.5rem;
+      font-size: 1.1rem;
+      color: #bbb;
+      line-height: 1.7;
+      min-height: 80px;
+      transition: color 0.3s;
+    }
+
+    .phrase-box.speaking {
+      color: #ff6655;
+      text-shadow: 0 0 8px rgba(255,80,50,0.6);
+      border-color: var(--blood);
+      box-shadow: 0 0 20px rgba(139,0,0,0.4) inset;
+    }
+
+    textarea {
+      width: 100%;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #ccc;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.95rem;
+      padding: 0.8rem 1rem;
+      resize: vertical;
+      min-height: 90px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    textarea:focus { border-color: var(--blood); }
+    textarea::placeholder { color: #444; }
+
+    .controls {
+      margin-top: 1.2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      cursor: pointer;
+      font-family: 'Creepster', cursive;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      border: none;
+      border-radius: 6px;
+      padding: 0.7rem 2rem;
+      transition: all 0.2s;
+    }
+
+    #speakBtn {
+      background: var(--blood);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(139,0,0,0.5);
+    }
+    #speakBtn:hover { background: #a00; box-shadow: 0 0 28px rgba(200,0,0,0.7); transform: scale(1.04); }
+    #speakBtn:active { transform: scale(0.97); }
+    #speakBtn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    #stopBtn {
+      background: #222;
+      color: #888;
+      border: 1px solid #444;
+    }
+    #stopBtn:hover { background: #333; color: #ccc; }
+
+    #randomBtn {
+      background: transparent;
+      color: #555;
+      border: 1px solid #333;
+      font-size: 1rem;
+    }
+    #randomBtn:hover { color: #999; border-color: #666; }
+
+    .sliders {
+      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 2rem;
+      text-align: left;
+    }
+
+    .slider-group label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #555;
+      margin-bottom: 0.35rem;
+    }
+    .slider-group label span { color: #888; }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 3px;
+      background: #2a2a2a;
+      border-radius: 2px;
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--blood);
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(139,0,0,0.8);
+    }
+
+    .visualizer {
+      margin: 1.8rem auto 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      height: 48px;
+    }
+
+    .bar {
+      width: 5px;
+      border-radius: 2px 2px 0 0;
+      background: var(--blood);
+      box-shadow: 0 0 5px rgba(255,0,0,0.5);
+      height: 4px;
+      transition: height 0.08s ease;
+    }
+
+    .status {
+      margin-top: 1.2rem;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #333;
+      min-height: 1em;
+    }
+    .status.active { color: var(--blood); animation: flicker 1.5s infinite; }
+
+    #noSpeech {
+      display: none;
+      margin-top: 1rem;
+      color: #8b0000;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Straszny Głos</h1>
+    <p class="subtitle">Mówi po polsku • Z otchłani</p>
+
+    <div class="phrase-box" id="phraseDisplay">
+      Wybierz zdanie lub wpisz własne...
+    </div>
+
+    <textarea id="customText" placeholder="Wpisz coś przerażającego po polsku..."></textarea>
+
+    <div class="controls">
+      <button id="speakBtn">&#128480; Przemów</button>
+      <button id="stopBtn">&#9632; Zatrzymaj</button>
+      <button id="randomBtn">&#9760; Losowe zdanie</button>
+    </div>
+
+    <div class="sliders">
+      <div class="slider-group">
+        <label>Tempo <span id="rateVal">0.6</span></label>
+        <input type="range" id="rateSlider" min="0.3" max="1.0" step="0.05" value="0.6" />
+      </div>
+      <div class="slider-group">
+        <label>Głębokość głosu <span id="pitchVal">0.5</span></label>
+        <input type="range" id="pitchSlider" min="0.1" max="1.0" step="0.05" value="0.5" />
+      </div>
+    </div>
+
+    <div class="visualizer" id="visualizer"></div>
+    <p class="status" id="status"></p>
+    <p id="noSpeech">Twoja przeglądarka nie obsługuje syntezatora mowy.</p>
+  </div>
+
+  <script>
+    const PHRASES = [
+      "Słyszę twoje myśli... i są przepełnione strachem.",
+      "Ciemność jest domem, z którego nigdy nie uciekniesz.",
+      "Za każdym razem gdy gasną światła... ja wchodzę.",
+      "Twoja dusza należy teraz do mnie.",
+      "Nie odwracaj się... bo coś stoi za tobą.",
+      "Śmierć przychodzi cicho... tak jak ja.",
+      "Krzycz, ile chcesz. Nikt cię nie usłyszy.",
+      "Nocą budzą się stwory, których nie chcesz spotkać.",
+      "Zostałeś sam. Ale naprawdę jesteś sam?",
+      "Liczę twoje oddechy... zostało ich niewiele.",
+      "Widzę cię przez cień, który rzucasz.",
+      "Twój czas dobiega końca... czujesz to, prawda?",
+    ];
+
+    const synth = window.speechSynthesis;
+    const speakBtn  = document.getElementById('speakBtn');
+    const stopBtn   = document.getElementById('stopBtn');
+    const randomBtn = document.getElementById('randomBtn');
+    const phraseDisplay = document.getElementById('phraseDisplay');
+    const customText    = document.getElementById('customText');
+    const rateSlider    = document.getElementById('rateSlider');
+    const pitchSlider   = document.getElementById('pitchSlider');
+    const rateVal       = document.getElementById('rateVal');
+    const pitchVal      = document.getElementById('pitchVal');
+    const statusEl      = document.getElementById('status');
+    const noSpeechEl    = document.getElementById('noSpeech');
+    const visualizer    = document.getElementById('visualizer');
+
+    if (!synth) {
+      noSpeechEl.style.display = 'block';
+      speakBtn.disabled = true;
+    }
+
+    // Build visualizer bars
+    const BAR_COUNT = 28;
+    const bars = [];
+    for (let i = 0; i < BAR_COUNT; i++) {
+      const b = document.createElement('div');
+      b.className = 'bar';
+      visualizer.appendChild(b);
+      bars.push(b);
+    }
+
+    let vizInterval = null;
+
+    function startViz() {
+      clearInterval(vizInterval);
+      vizInterval = setInterval(() => {
+        bars.forEach(b => {
+          const h = Math.random() * 44 + 4;
+          b.style.height = h + 'px';
+          b.style.opacity = 0.5 + Math.random() * 0.5;
+        });
+      }, 90);
+    }
+
+    function stopViz() {
+      clearInterval(vizInterval);
+      bars.forEach(b => { b.style.height = '4px'; b.style.opacity = '1'; });
+    }
+
+    function getPolishVoice() {
+      const voices = synth.getVoices();
+      // Prefer pl-PL voices; fall back to any available
+      return voices.find(v => v.lang.startsWith('pl')) || voices[0] || null;
+    }
+
+    function speak(text) {
+      if (!synth) return;
+      synth.cancel();
+
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang  = 'pl-PL';
+      utter.rate  = parseFloat(rateSlider.value);
+      utter.pitch = parseFloat(pitchSlider.value);
+
+      const voice = getPolishVoice();
+      if (voice) utter.voice = voice;
+
+      phraseDisplay.textContent = text;
+      phraseDisplay.classList.add('speaking');
+      statusEl.textContent = 'przemawia...';
+      statusEl.classList.add('active');
+      speakBtn.disabled = true;
+      startViz();
+
+      utter.onend = () => {
+        phraseDisplay.classList.remove('speaking');
+        statusEl.textContent = '';
+        statusEl.classList.remove('active');
+        speakBtn.disabled = false;
+        stopViz();
+      };
+
+      utter.onerror = () => {
+        phraseDisplay.classList.remove('speaking');
+        statusEl.textContent = 'błąd syntezatora';
+        statusEl.classList.remove('active');
+        speakBtn.disabled = false;
+        stopViz();
+      };
+
+      synth.speak(utter);
+    }
+
+    speakBtn.addEventListener('click', () => {
+      const text = customText.value.trim() || phraseDisplay.textContent.trim();
+      if (!text || text === 'Wybierz zdanie lub wpisz własne...') return;
+      speak(text);
+    });
+
+    stopBtn.addEventListener('click', () => {
+      synth && synth.cancel();
+      phraseDisplay.classList.remove('speaking');
+      statusEl.textContent = '';
+      statusEl.classList.remove('active');
+      speakBtn.disabled = false;
+      stopViz();
+    });
+
+    randomBtn.addEventListener('click', () => {
+      const phrase = PHRASES[Math.floor(Math.random() * PHRASES.length)];
+      customText.value = '';
+      phraseDisplay.textContent = phrase;
+      phraseDisplay.classList.remove('speaking');
+    });
+
+    rateSlider.addEventListener('input', () => { rateVal.textContent = rateSlider.value; });
+    pitchSlider.addEventListener('input', () => { pitchVal.textContent = pitchSlider.value; });
+
+    // Load voices (some browsers need this event)
+    if (synth && synth.onvoiceschanged !== undefined) {
+      synth.onvoiceschanged = () => {};
+    }
+
+    // Show a random phrase on load
+    phraseDisplay.textContent = PHRASES[Math.floor(Math.random() * PHRASES.length)];
+  </script>
+</body>
+</html>
