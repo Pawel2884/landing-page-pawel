@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Życie w tygodniach</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f3f4f6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 16px 64px;
+      color: #111827;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 1.05rem;
+      color: #6b7280;
+      max-width: 380px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .card label {
+      display: block;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .date-inputs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .date-inputs select {
+      flex: 1;
+      padding: 12px 10px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #f9fafb;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+    }
+
+    .date-inputs select:focus {
+      outline: none;
+      border-color: #111827;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      background: #111827;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    button:hover { background: #1f2937; }
+    button:active { background: #374151; }
+
+    /* Visualization */
+    #result {
+      margin-top: 48px;
+      width: 100%;
+      max-width: 900px;
+      display: none;
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .stat-box {
+      flex: 1;
+      min-width: 130px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      text-align: center;
+    }
+
+    .stat-box .num {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .stat-box .lbl {
+      font-size: 0.82rem;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .stat-box.lived .num { color: #111827; }
+    .stat-box.remaining .num { color: #9ca3af; }
+    .stat-box.age .num { color: #3b82f6; }
+
+    .legend {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .dot.lived { background: #111827; }
+    .dot.current { background: #3b82f6; }
+    .dot.future { background: #e5e7eb; border: 1px solid #d1d5db; }
+
+    .grid-wrapper {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      overflow-x: auto;
+    }
+
+    .year-labels {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 4px;
+      padding-left: 36px;
+    }
+
+    .year-label {
+      font-size: 0.6rem;
+      color: #9ca3af;
+      width: 10px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .grid-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .grid-row {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .row-label {
+      font-size: 0.62rem;
+      color: #9ca3af;
+      width: 32px;
+      text-align: right;
+      padding-right: 6px;
+      flex-shrink: 0;
+    }
+
+    .week {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .week.lived { background: #111827; }
+    .week.current { background: #3b82f6; }
+    .week.future { background: #e5e7eb; }
+
+    @media (max-width: 600px) {
+      .week { width: 7px; height: 7px; }
+      .year-label { width: 7px; font-size: 0.5rem; }
+      .grid-wrapper { padding: 16px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Życie w tygodniach</h1>
+  <p>Prosta wizualizacja, która pomaga reflektować nad upływem czasu</p>
+</header>
+
+<div class="card">
+  <label>Kiedy się urodziłeś/aś?</label>
+  <div class="date-inputs">
+    <select id="selDay" aria-label="Dzień"></select>
+    <select id="selMonth" aria-label="Miesiąc"></select>
+    <select id="selYear" aria-label="Rok"></select>
+  </div>
+  <button onclick="visualize()">Zwizualizuj swój czas</button>
+</div>
+
+<div id="result">
+  <div class="stats">
+    <div class="stat-box age">
+      <div class="num" id="statAge">—</div>
+      <div class="lbl">Twój wiek</div>
+    </div>
+    <div class="stat-box lived">
+      <div class="num" id="statLived">—</div>
+      <div class="lbl">Przeżyte tygodnie</div>
+    </div>
+    <div class="stat-box remaining">
+      <div class="num" id="statLeft">—</div>
+      <div class="lbl">Pozostałe tygodnie<br><small style="font-size:0.7rem">(przy 90 latach)</small></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><span class="dot lived"></span> Przeżyte</span>
+    <span><span class="dot current"></span> Bieżący tydzień</span>
+    <span><span class="dot future"></span> Przyszłe</span>
+  </div>
+
+  <div class="grid-wrapper">
+    <div class="year-labels" id="yearLabels"></div>
+    <div class="grid-rows" id="gridRows"></div>
+  </div>
+</div>
+
+<script>
+  const MONTHS = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec',
+                  'Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+  const LIFE_YEARS = 90;
+  const WEEKS_PER_YEAR = 52;
+  const TOTAL_WEEKS = LIFE_YEARS * WEEKS_PER_YEAR;
+
+  const selDay = document.getElementById('selDay');
+  const selMonth = document.getElementById('selMonth');
+  const selYear = document.getElementById('selYear');
+
+  // Populate day
+  for (let d = 1; d <= 31; d++) {
+    const o = document.createElement('option');
+    o.value = d;
+    o.textContent = d;
+    selDay.appendChild(o);
+  }
+
+  // Populate month
+  MONTHS.forEach((m, i) => {
+    const o = document.createElement('option');
+    o.value = i + 1;
+    o.textContent = m;
+    selMonth.appendChild(o);
+  });
+
+  // Populate year
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear - 1; y >= currentYear - 100; y--) {
+    const o = document.createElement('option');
+    o.value = y;
+    o.textContent = y;
+    selYear.appendChild(o);
+  }
+
+  // Default: ~30 years ago
+  selDay.value = 1;
+  selMonth.value = 1;
+  selYear.value = currentYear - 30;
+
+  function weeksBetween(d1, d2) {
+    return Math.floor((d2 - d1) / (7 * 24 * 60 * 60 * 1000));
+  }
+
+  function visualize() {
+    const day = parseInt(selDay.value);
+    const month = parseInt(selMonth.value) - 1;
+    const year = parseInt(selYear.value);
+
+    const birthDate = new Date(year, month, day);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    if (birthDate > today) {
+      alert('Data urodzenia nie może być w przyszłości!');
+      return;
+    }
+
+    const weeksLived = weeksBetween(birthDate, today);
+    const ageYears = Math.floor(weeksLived / WEEKS_PER_YEAR);
+    const weeksLeft = Math.max(0, TOTAL_WEEKS - weeksLived);
+
+    document.getElementById('statAge').textContent = ageYears + ' lat';
+    document.getElementById('statLived').textContent = weeksLived.toLocaleString('pl');
+    document.getElementById('statLeft').textContent = weeksLeft.toLocaleString('pl');
+
+    buildGrid(weeksLived);
+
+    const result = document.getElementById('result');
+    result.style.display = 'block';
+    result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function buildGrid(weeksLived) {
+    const yearLabels = document.getElementById('yearLabels');
+    const gridRows = document.getElementById('gridRows');
+    yearLabels.innerHTML = '';
+    gridRows.innerHTML = '';
+
+    // Year labels every 5 years
+    for (let w = 0; w < WEEKS_PER_YEAR; w++) {
+      const lbl = document.createElement('div');
+      lbl.className = 'year-label';
+      lbl.textContent = (w % 5 === 0) ? String(w) : '';
+      yearLabels.appendChild(lbl);
+    }
+
+    for (let y = 0; y < LIFE_YEARS; y++) {
+      const row = document.createElement('div');
+      row.className = 'grid-row';
+
+      const rowLbl = document.createElement('div');
+      rowLbl.className = 'row-label';
+      rowLbl.textContent = (y % 5 === 0) ? y + ' r.' : '';
+      row.appendChild(rowLbl);
+
+      for (let w = 0; w < WEEKS_PER_YEAR; w++) {
+        const idx = y * WEEKS_PER_YEAR + w;
+        const cell = document.createElement('div');
+        cell.className = 'week';
+
+        if (idx < weeksLived - 1) {
+          cell.classList.add('lived');
+        } else if (idx === weeksLived - 1) {
+          cell.classList.add('current');
+          cell.title = 'Jesteś tutaj';
+        } else {
+          cell.classList.add('future');
+        }
+
+        row.appendChild(cell);
+      }
+
+      gridRows.appendChild(row);
+    }
+  }
+</script>
+
+</body>
+</html>
