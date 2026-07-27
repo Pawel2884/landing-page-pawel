@@ -1,0 +1,230 @@
+{
+  "name": "Brevo sync zakupow (EasyTools)",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": { "hook": 4282871, "maxResults": 1 },
+      "mapper": {},
+      "metadata": { "designer": { "x": 0, "y": 0 } }
+    },
+    {
+      "id": 2,
+      "module": "util:SetVariables",
+      "version": 1,
+      "filter": {
+        "name": "Tylko oplacony zakup",
+        "conditions": [
+          [
+            { "a": "{{1.event}}", "b": "product_assigned", "o": "text:equal" },
+            { "a": "{{1.success}}", "b": "true", "o": "text:equal" },
+            { "a": "{{1.order_amount}}", "b": "0", "o": "number:greater" }
+          ]
+        ]
+      },
+      "parameters": {},
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          { "name": "BREVO_KEY", "value": "WKLEJ_TU_KLUCZ_API_BREVO" },
+          { "name": "L10_KOSZYK", "value": "0" },
+          { "name": "L20_KLIENCI", "value": "0" },
+          { "name": "L21_BEZ_CROSSSELL", "value": "0" },
+          { "name": "L30_MA_CROSSSELL", "value": "0" },
+          { "name": "kwota", "value": "{{1.order_amount}}" },
+          { "name": "email", "value": "{{trim(1.customer_email)}}" },
+          { "name": "imie", "value": "{{trim(ifempty(1.invoice_data.first_name; ifempty(1.shipping.first_name; 1.customer_first_name)))}}" },
+          { "name": "nazwisko", "value": "{{trim(ifempty(1.invoice_data.last_name; ifempty(1.shipping.last_name; 1.customer_last_name)))}}" }
+        ]
+      },
+      "metadata": { "designer": { "x": 300, "y": 0 } }
+    },
+    {
+      "id": 3,
+      "module": "util:SetVariables",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          { "name": "ma_kurs", "value": "{{if(2.kwota = 79; \"true\"; if(2.kwota = 116; \"true\"; if(2.kwota = 276; \"true\"; if(2.kwota = 313; \"true\"; \"false\"))))}}" },
+          { "name": "ma_prompty", "value": "{{if(2.kwota = 37; \"true\"; if(2.kwota = 116; \"true\"; if(2.kwota = 313; \"true\"; \"false\")))}}" },
+          { "name": "ma_10k", "value": "{{if(2.kwota = 197; \"true\"; if(2.kwota = 276; \"true\"; if(2.kwota = 313; \"true\"; \"false\")))}}" },
+          { "name": "koszyk", "value": "{{if(2.kwota = 79; \"kurs\"; if(2.kwota = 116; \"kurs + prompty\"; if(2.kwota = 197; \"10k osobno\"; if(2.kwota = 276; \"kurs + 10k\"; if(2.kwota = 313; \"kurs + prompty + 10k\"; if(2.kwota = 37; \"prompty osobno\"; \"NIEZNANY\"))))))}}" },
+          { "name": "deadline_b", "value": "{{formatDate(addDays(now; 14); \"DD.MM.YYYY\")}}" }
+        ]
+      },
+      "metadata": { "designer": { "x": 600, "y": 0 } }
+    },
+    {
+      "id": 4,
+      "module": "util:SetVariables",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "scope": "roundtrip",
+        "variables": [
+          { "name": "listy", "value": "{{if(3.ma_10k = \"true\"; \"[\" + 2.L20_KLIENCI + \",\" + 2.L30_MA_CROSSSELL + \"]\"; if(3.ma_kurs = \"true\"; \"[\" + 2.L20_KLIENCI + \",\" + 2.L21_BEZ_CROSSSELL + \"]\"; \"[\" + 2.L20_KLIENCI + \"]\"))}}" }
+        ]
+      },
+      "metadata": { "designer": { "x": 900, "y": 0 } }
+    },
+    {
+      "id": 5,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": true },
+      "filter": {
+        "name": "Pomin jesli koszyk nierozpoznany",
+        "conditions": [
+          [ { "a": "{{3.koszyk}}", "b": "NIEZNANY", "o": "text:notequal" } ]
+        ]
+      },
+      "mapper": {
+        "url": "https://api.brevo.com/v3/contacts",
+        "method": "post",
+        "headers": [
+          { "name": "api-key", "value": "{{2.BREVO_KEY}}" },
+          { "name": "accept", "value": "application/json" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\"email\":\"{{2.email}}\",\"updateEnabled\":true,\"attributes\":{\"FIRSTNAME\":\"{{2.imie}}\",\"LASTNAME\":\"{{2.nazwisko}}\",\"KWOTA\":{{2.kwota}},\"KOSZYK\":\"{{3.koszyk}}\",\"MA_KURS\":{{3.ma_kurs}},\"MA_PROMPTY\":{{3.ma_prompty}},\"MA_10K\":{{3.ma_10k}},\"DATA_ZAKUPU\":\"{{formatDate(now; \"YYYY-MM-DD\")}}\",\"ORDER_ID\":\"{{1.order_id}}\",\"DEADLINE_B\":\"{{3.deadline_b}}\"},\"listIds\":{{4.listy}}}",
+        "gzip": true,
+        "useMtls": false,
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+      },
+      "onerror": [
+        {
+          "id": 50,
+          "module": "google-email:sendAnEmail",
+          "version": 4,
+          "parameters": { "__IMTCONN__": 14418333 },
+          "mapper": {
+            "to": ["pawel.kwiatek1177@gmail.com"],
+            "subject": "[BREVO SYNC] Nie udalo sie zapisac kontaktu - {{2.email}}",
+            "bodyType": "rawHtml",
+            "content": "<b>Etap:</b> zapis kontaktu do Brevo<br><b>Mail:</b> {{2.email}}<br><b>Kwota:</b> {{2.kwota}} PLN<br><b>Koszyk:</b> {{3.koszyk}}<br><b>Listy:</b> {{4.listy}}<br><br><b>Blad:</b> {{error.message}}<br><br>To dotyczy TYLKO mailingu. Faktura i dostep do produktu ida osobnym scenariuszem i nie sa tym dotkniete.<br>Najczestsza przyczyna: brak klucza API Brevo, brak atrybutu kontaktu albo ID listy ustawione na 0."
+          },
+          "metadata": { "designer": { "x": 1200, "y": 300 } }
+        },
+        {
+          "id": 51,
+          "module": "builtin:Commit",
+          "version": 1,
+          "parameters": {},
+          "mapper": {},
+          "metadata": { "designer": { "x": 1500, "y": 300 } }
+        }
+      ],
+      "metadata": { "designer": { "x": 1200, "y": 0 } }
+    },
+    {
+      "id": 6,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": true },
+      "mapper": {
+        "url": "https://api.brevo.com/v3/contacts/lists/{{2.L10_KOSZYK}}/contacts/remove",
+        "method": "post",
+        "headers": [
+          { "name": "api-key", "value": "{{2.BREVO_KEY}}" },
+          { "name": "accept", "value": "application/json" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\"emails\":[\"{{2.email}}\"]}",
+        "gzip": true,
+        "useMtls": false,
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": false,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+      },
+      "onerror": [
+        {
+          "id": 60,
+          "module": "builtin:Ignore",
+          "version": 1,
+          "parameters": {},
+          "mapper": {},
+          "metadata": { "designer": { "x": 1500, "y": 600 } }
+        }
+      ],
+      "metadata": { "designer": { "x": 1500, "y": 0 } }
+    },
+    {
+      "id": 7,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": true },
+      "filter": {
+        "name": "STOP sekwencji B: kupil cross sell",
+        "conditions": [
+          [ { "a": "{{3.ma_10k}}", "b": "true", "o": "text:equal" } ]
+        ]
+      },
+      "mapper": {
+        "url": "https://api.brevo.com/v3/contacts/lists/{{2.L21_BEZ_CROSSSELL}}/contacts/remove",
+        "method": "post",
+        "headers": [
+          { "name": "api-key", "value": "{{2.BREVO_KEY}}" },
+          { "name": "accept", "value": "application/json" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\"emails\":[\"{{2.email}}\"]}",
+        "gzip": true,
+        "useMtls": false,
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": false,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "followAllRedirects": false,
+        "rejectUnauthorized": true
+      },
+      "onerror": [
+        {
+          "id": 70,
+          "module": "builtin:Ignore",
+          "version": 1,
+          "parameters": {},
+          "mapper": {},
+          "metadata": { "designer": { "x": 2100, "y": 600 } }
+        }
+      ],
+      "metadata": { "designer": { "x": 1800, "y": 0 } }
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "designer": { "orphans": [] },
+    "scenario": {
+      "dlq": false,
+      "slots": null,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  }
+}
