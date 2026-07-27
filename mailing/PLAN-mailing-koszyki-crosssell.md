@@ -273,9 +273,51 @@ Punkty 1 do 3 to jeden wieczór roboty. Punkt 5 to główna praca merytoryczna.
 
 ---
 
-## 11. Decyzje potrzebne przed pisaniem treści
+## 11. Decyzje podjęte
 
-1. **Mechanika pilności w mailach 4 i 5.** Rabat czasowy, znikający bonus czy podwyżka ceny? Bez tego maile sprzedażowe nie mają czym domykać, a deadline musi być prawdziwy.
-2. **Skąd bierzemy maile porzuconych koszyków.** Droga 1, 2 czy 3 z sekcji 4.
-3. **Czy włączamy downsell** promptów za 37 zł po nieudanej sekwencji B.
-4. **Czy piszemy do bazy historycznej**, czyli do ludzi, którzy kupili kurs zanim ten system ruszył. To jednorazowa kampania, nie automatyzacja, i przy limicie 300 maili na dobę trzeba ją rozłożyć.
+| Decyzja | Ustalenie | Konsekwencja |
+|---|---|---|
+| Mechanika pilności | **podwyżka ceny** | wymaga podniesienia cen regularnych, patrz niżej |
+| Źródło maili porzuconych koszyków | **EasyTools już je zbiera** (Checkout Recovery) | zostaje wyciągnąć je do Brevo, bez zmian w lejku |
+| Cross sell | **197 zł plus downsell 37 zł** | sekwencja B ma 6 maili, szósty warunkowy |
+| Baza historyczna | **tak, jednorazowa kampania** | wariant B1-HIST, wysyłka partiami |
+
+### Co oznacza podwyżka ceny w praktyce
+
+Deadline musi mieć prawdziwą konsekwencję, inaczej spala zaufanie przy drugiej kampanii. Żeby to działało w trybie ciągłym, a nie raz:
+
+* **kurs: cena regularna idzie do 129 zł**, 79 zł zostaje ceną wejściową ważną 7 dni od porzucenia koszyka
+* **cross sell: cena regularna idzie do 297 zł**, 197 zł zostaje ceną kursanta ważną 14 dni od zakupu kursu
+* realizacja: kod rabatowy w EasyTools z datą wygaśnięcia, w linku przekazywanym przez Make
+
+Kwoty 129 zł i 297 zł to propozycja, nie ustalenie. Podmieniam w minutę, ale któreś liczby muszą być prawdziwe, bo klient po terminie faktycznie musi zobaczyć wyższą cenę.
+
+**Jeśli nie chcesz podnosić cen regularnych**, maile 4 i 5 w obu sekwencjach idą do przepisania na znikający bonus. Nie da się napisać wiarygodnego „cena rośnie", jeśli cena nie rośnie.
+
+### Porzucone koszyki: co zostało do sprawdzenia
+
+EasyTools zbiera te adresy przez Checkout Recovery, który śledzi sesje checkoutu i oznacza je jako porzucone. Zostaje jedno pytanie techniczne do panelu: czy da się je wypchnąć webhookiem do Make automatycznie, czy trzeba je eksportować cyklicznie i wrzucać do Brevo importem.
+
+* **jeśli webhook: pełna automatyzacja**, sekwencja A rusza w 45 minut od porzucenia
+* **jeśli tylko eksport: półautomat**, eksport raz dziennie i import do listy `L10`, sekwencja A rusza z opóźnieniem do doby
+
+Treść maili jest w obu przypadkach identyczna, więc to nie blokuje pisania. Blokuje tylko czas reakcji, a przy porzuconym koszyku pierwsza godzina jest najcenniejsza.
+
+---
+
+## 12. Gotowe treści
+
+| Plik | Zawartość |
+|---|---|
+| `SEKWENCJA-A-porzucony-koszyk.md` | 5 maili, pełna treść, tematy w dwóch wariantach do testu A/B |
+| `SEKWENCJA-B-crosssell.md` | 5 maili plus downsell plus wariant dla bazy historycznej |
+
+### Co muszę od Ciebie dostać, żeby domknąć treść
+
+W trzech miejscach zostawiłem placeholdery, bo nie zmyślam rzeczy, których nie mogę sprawdzić:
+
+1. `[MODUŁY KURSU]` w mailu A4, czyli lista modułów kursu
+2. `[ZAWARTOŚĆ 10K]` w mailu B4, czyli co dokładnie jest w produkcie za 197 zł
+3. `[TWOJE LICZBY]` w mailu B3, czyli Twoje realne dane ze sprzedaży kursu
+
+Trzeci jest opcjonalny, ale najmocniejszy. Mail B3 działa na modelowym przykładzie stu osób. Z Twoimi prawdziwymi liczbami przestaje być argumentem, a staje się dowodem.
