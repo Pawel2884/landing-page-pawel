@@ -33,8 +33,9 @@ Kampania **id 32**, `BAZA HISTORYCZNA — B1-HIST`. Status draft, **bez odbiorc�
 ### Make: nowy scenariusz `Brevo sync zakupow (EasyTools)`
 
 * **ID scenariusza:** 9581586
-* **Status: NIEAKTYWNY.** Włączysz go dopiero po uzupełnieniu klucza i ID list.
+* **Status: NIEAKTYWNY.** Włączam go dopiero, gdy w magazynie będzie klucz API.
 * **Własny webhook:** `https://hook.eu2.make.com/egqgqwhjx2jfnyh6m4ojudufuaywrhe1`
+* Konfigurację czyta z magazynu `mailing_config`, więc nie ma w nim nic wklepanego na sztywno
 
 Co robi, w kolejności:
 
@@ -49,6 +50,19 @@ Zabezpieczenia w środku:
 * koszyk `NIEZNANY` (np. po kodzie rabatowym) nie jest zapisywany, żeby nie wpadł do złej sekwencji
 * błąd zapisu do Brevo wysyła Ci maila z powodem i **nie przerywa niczego innego**
 * usunięcia z list mają `Ignore` na błędzie, bo kontakt może po prostu nie być na danej liście
+* dopóki w magazynie stoi `0` zamiast ID list, zapis kontaktu w ogóle się nie odpali
+
+### Make: magazyn konfiguracji `mailing_config`
+
+* **ID magazynu:** 174285, rekord o kluczu `config`
+* Trzyma klucz API Brevo i cztery ID list w jednym miejscu
+* Czytają go oba scenariusze, więc klucz istnieje tylko raz i wystarczy podmienić go w jednym polu
+
+### Make: scenariusz `SETUP Brevo (jednorazowy) - listy i atrybuty`
+
+* **ID scenariusza:** 9581615, tryb on-demand, **nieaktywny**
+* Zakłada w Brevo cztery listy i dwanaście atrybutów kontaktu, po czym zapisuje ID list do magazynu i wysyła Ci podsumowanie mailem
+* Odpalam go ja, jednym poleceniem, gdy tylko klucz API znajdzie się w magazynie
 
 ---
 
@@ -66,55 +80,30 @@ Fakturowanie, KSeF, Saldeo, Meta CAPI i dostęp do produktu działają dokładni
 
 ---
 
-## 3. Co zostało do zrobienia (kolejność ma znaczenie)
+## 3. Co zostało do zrobienia
 
-### Krok 1: cztery listy w Brevo
+### Krok 1: TWOJA JEDYNA RĘCZNA ROBOTA. Wklej klucz API Brevo
 
-Kontakty → Listy → Utwórz listę. Zapisz ID każdej (widać je w adresie strony po wejściu w listę).
+1. Brevo → ikona konta → **SMTP & API** → **API Keys** → wygeneruj klucz v3, skopiuj
+2. Make → **Data stores** → `mailing_config` → **Browse** → rekord o kluczu `config`
+3. W polu `klucz_brevo` podmień `WKLEJ_TU_KLUCZ_API_BREVO` na swój klucz. Zapisz
 
-| Nazwa | Do czego |
-|---|---|
-| `L10_KOSZYK_PORZUCONY` | uruchamia sekwencję A |
-| `L20_KLIENCI` | każdy kto cokolwiek kupił, baza |
-| `L21_BEZ_CROSSSELL` | uruchamia sekwencję B |
-| `L30_MA_CROSSSELL` | kupił za 197 zł, wykluczenie |
+To wszystko. Napisz mi, że gotowe, a resztę po stronie Brevo i Make robię ja.
 
-### Krok 2: atrybuty kontaktu w Brevo
+Jeden klucz, jedno pole. Klucz zostaje po Twojej stronie, nie muszę go widzieć, a możesz go unieważnić jednym kliknięciem w każdej chwili.
 
-Kontakty → Ustawienia → Atrybuty kontaktów. `FIRSTNAME` i `LASTNAME` już istnieją, reszty brakuje. **Bez nich zapis kontaktu zwróci błąd.**
+### Krok 2: to robię ja, jak dasz znać
 
-| Atrybut | Typ |
-|---|---|
-| `KWOTA` | liczba |
-| `KOSZYK` | tekst |
-| `MA_KURS` | tak/nie |
-| `MA_PROMPTY` | tak/nie |
-| `MA_10K` | tak/nie |
-| `DATA_ZAKUPU` | data |
-| `ORDER_ID` | tekst |
-| `DEADLINE` | **tekst** (nie data, bo ma się wyświetlić jako 03.08.2026) |
-| `DEADLINE_B` | **tekst** |
-| `LINK_KOSZYKA` | tekst |
-| `LINK_10K` | tekst |
-| `LINK_PROMPTY` | tekst |
+Uruchamiam scenariusz **SETUP Brevo (jednorazowy)** (id 9581615), który sam:
 
-### Krok 3: klucz API Brevo
+* zakłada cztery listy: `L10_KOSZYK_PORZUCONY`, `L20_KLIENCI`, `L21_BEZ_CROSSSELL`, `L30_MA_CROSSSELL`
+* zakłada dwanaście atrybutów kontaktu: `KWOTA`, `KOSZYK`, `MA_KURS`, `MA_PROMPTY`, `MA_10K`, `DATA_ZAKUPU`, `ORDER_ID`, `DEADLINE`, `DEADLINE_B`, `LINK_KOSZYKA`, `LINK_10K`, `LINK_PROMPTY`
+* zapisuje ID list z powrotem do `mailing_config`
+* wysyła Ci maila z podsumowaniem i numerami list
 
-Brevo → ikona konta → SMTP & API → API Keys → wygeneruj klucz v3. Skopiuj.
+Potem włączam scenariusz `Brevo sync zakupow`, który czyta konfigurację z tego samego magazynu, więc nie ma nic do przepisywania ręcznie.
 
-### Krok 4: uzupełnij scenariusz w Make i włącz go
-
-Make → scenariusz **Brevo sync zakupow (EasyTools)** → drugi moduł od lewej (Set variables). Podmień pięć wartości:
-
-* `BREVO_KEY` → wklej klucz z kroku 3 zamiast `WKLEJ_TU_KLUCZ_API_BREVO`
-* `L10_KOSZYK` → ID listy L10 zamiast `0`
-* `L20_KLIENCI` → ID listy L20
-* `L21_BEZ_CROSSSELL` → ID listy L21
-* `L30_MA_CROSSSELL` → ID listy L30
-
-Zapisz. Włącz scenariusz przełącznikiem.
-
-### Krok 5: drugi webhook w EasyTools
+### Krok 3: drugi webhook w EasyTools
 
 EasyTools → Ustawienia sklepu → API i Webhooks → dodaj adres:
 
@@ -124,7 +113,7 @@ https://hook.eu2.make.com/egqgqwhjx2jfnyh6m4ojudufuaywrhe1
 
 **Nie usuwaj i nie podmieniaj istniejącego webhooka od faktur.** Dodajesz drugi obok pierwszego. Jeśli EasyTools dodaje webhooki tylko do nowych checkoutów, wejdź w każdy istniejący checkout i dodaj go w Automatyzacje → Webhook.
 
-### Krok 6: test na żywo, zanim cokolwiek pójdzie do ludzi
+### Krok 4: test na żywo, zanim cokolwiek pójdzie do ludzi
 
 Zrób jeden testowy zakup kodem 100 procent albo najtańszym produktem i sprawdź trzy rzeczy naraz:
 
@@ -134,7 +123,7 @@ Zrób jeden testowy zakup kodem 100 procent albo najtańszym produktem i sprawd�
 
 Dopiero jak te trzy się zgadzają, przechodź dalej.
 
-### Krok 7: dwie automatyzacje w Brevo
+### Krok 5: dwie automatyzacje w Brevo
 
 Brevo → Automatyzacje → Utwórz workflow → od zera.
 
@@ -167,7 +156,7 @@ Warunek wyjścia: kontakt usunięty z listy `L21`. Robi to Make w chwili zakupu 
 
 Przed włączeniem przetestuj oba workflow na własnym adresie, przechodząc całą ścieżkę od początku do końca.
 
-### Krok 8: ceny i kody w EasyTools
+### Krok 6: ceny i kody w EasyTools
 
 Bez tego deadline w mailach 4 i 5 jest odgrywany, a nie prawdziwy.
 
@@ -178,22 +167,22 @@ Bez tego deadline w mailach 4 i 5 jest odgrywany, a nie prawdziwy.
 
 Jeśli nie chcesz podnosić cen, powiedz. Przepiszę maile 23, 24, 28 i 29 na znikający bonus zamiast podwyżki.
 
-### Krok 9: uzupełnij dwa placeholdery w treści
+### Krok 7: uzupełnij dwa placeholdery w treści
 
 W szablonie **23** (A4) jest żółte pole `[TU WKLEJ LISTĘ MODUŁÓW KURSU]`.
 W szablonie **28** (B4) jest żółte pole `[TU WKLEJ LISTĘ TEGO, CO JEST W ŚRODKU]`.
 
 Nie wymyślałem zawartości Twoich produktów. To dwie minuty roboty i muszą być wypełnione przed startem.
 
-### Krok 10: SPF i DKIM
+### Krok 8: SPF i DKIM
 
 Brevo → Nadawcy, domeny i adresy IP → domena `kwiatekmedia.pl`. Jeśli nie ma zielonych ptaszków przy SPF i DKIM, dodaj rekordy w DNS. **Bez tego wszystko poleci do spamu i cała reszta nie ma znaczenia.**
 
-### Krok 11: porzucone koszyki do listy L10
+### Krok 9: porzucone koszyki do listy L10
 
 EasyTools zbiera te adresy przez Checkout Recovery. Sprawdź w panelu, czy da się je wypchnąć webhookiem. Jeśli tak, powiedz, dopiszę drugi scenariusz. Jeśli nie, na razie eksportuj je raz dziennie i importuj do listy `L10`, ustawiając przy imporcie `LINK_KOSZYKA` i `DEADLINE`.
 
-### Krok 12: baza historyczna
+### Krok 10: baza historyczna
 
 Kampania draft **id 32** czeka gotowa. Wybierz listę odbiorców i wyślij ręcznie. Przy limicie 300 maili na dobę rozłóż to na partie. Po wysłaniu dodaj tych ludzi do `L21`, żeby weszli w workflow B od maila B2.
 
@@ -204,3 +193,23 @@ Kampania draft **id 32** czeka gotowa. Wybierz listę odbiorców i wyślij ręcz
 * **300 maili na dobę** na planie free. To wystarcza na około 60 nowych kontaktów dziennie w sekwencjach. Baza historyczna zjada ten limit, więc nie wysyłaj jej w dniu, w którym testujesz automatyzacje.
 * **Tagi kampanii są zablokowane** na planie free. Dlatego kampania 32 nie ma tagu. Szablony tagi mają, bo tam limit nie obowiązuje.
 * Make: plan Core, 10 000 operacji miesięcznie. Nowy scenariusz zużywa około 3 operacji na zakup, więc to nieistotny narzut.
+
+---
+
+## 5. Czego nie da się zrobić zdalnie i dlaczego
+
+Sprawdzone, nie założone. Z tego środowiska nie ma ruchu wychodzącego do paneli:
+
+| Host | curl | Chromium |
+|---|---|---|
+| `app.brevo.com` | 000, CONNECT odrzucony | pusty DOM, strona się nie wczytała |
+| `panel.easy.tools` | 000, CONNECT odrzucony | to samo |
+| `eu2.make.com` | 000, CONNECT odrzucony | to samo |
+
+Integracje MCP działają, bo te wywołania wychodzą z serwera, a nie z tej maszyny. Dlatego przeglądarka nic tu nie zmienia. Nie jest to kwestia braku Chrome, tylko polityki sieciowej.
+
+Co z tego wynika w praktyce:
+
+* **Brevo przez Make: da się.** Make sięga do `api.brevo.com` z własnej chmury, więc listy, atrybuty, kontakty i listy wykluczeń ogarniam scenariuszami. Stąd scenariusz SETUP.
+* **Automatyzacje Brevo: nie da się.** Brevo nie udostępnia w publicznym API tworzenia workflow. To jedyna rzecz w Brevo, która musi powstać klikaniem, i dlatego rozpisałem ją krok po kroku w sekcji 3.
+* **EasyTools: nie da się.** Brak integracji i brak dostępu do panelu. Webhook, ceny regularne i kody rabatowe zostają po Twojej stronie.
