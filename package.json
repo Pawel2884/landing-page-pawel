@@ -1,0 +1,41 @@
+{
+  "name": "claude-w-praktyce-ad",
+  "version": "1.0.0",
+  "private": true,
+  "description": "30s reklama wideo 'Claude w praktyce' - Remotion, 3D, neon, pixel art, napisy PL",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "remotion studio",
+    "studio": "remotion studio",
+    "render": "remotion render ClaudeWPraktyce out/claude-w-praktyce.mp4",
+    "render:pionowo": "remotion render ClaudeWPraktycePionowo out/claude-w-praktyce-9x16.mp4",
+    "render:kwadrat": "remotion render ClaudeWPraktyceKwadrat out/claude-w-praktyce-1x1.mp4",
+    "still": "remotion still ClaudeWPraktyce out/klatka.png",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:41729/git/Pawel2884/landing-page-pawel"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/pixelify-sans": "^5.3.0",
+    "@fontsource/press-start-2p": "^5.3.0",
+    "@remotion/cli": "^4.0.501",
+    "@remotion/media-utils": "^4.0.501",
+    "@remotion/noise": "^4.0.501",
+    "@remotion/paths": "^4.0.501",
+    "@remotion/shapes": "^4.0.501",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remotion": "^4.0.501"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3"
+  }
+}
