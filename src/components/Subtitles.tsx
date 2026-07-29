@@ -18,11 +18,16 @@ export const Subtitles: React.FC<{
   const frame = useCurrentFrame();
   const {width, height} = useVideoConfig();
 
-  // W kadrach pionowych i kwadratowych sceny zajmuja tylko pas na srodku.
-  // Napisy trzymamy tuz pod tym pasem, zamiast na samym dole ekranu.
+  // W kadrach pionowych i kwadratowych sceny zajmuja tylko pas na srodku,
+  // a pod nim zostaje czarny margines. Napisy wchodza w ten margines, zeby
+  // nie zaslanialy animacji. W 16:9 marginesu nie ma i nic sie nie zmienia.
   const stageScale = Math.min(width / STAGE_W, height / STAGE_H);
   const letterbox = (height - STAGE_H * stageScale) / 2;
-  const bottomOffset = bottom + letterbox;
+  const bottomOffset = bottom + letterbox * 0.45;
+
+  // Plyta napisu skaluje sie razem z kadrem, ale nie schodzi ponizej 0.72,
+  // zeby na pionie tekst zostal czytelny na telefonie.
+  const plate = Math.max(0.72, Math.min(1, stageScale));
 
   const active = CAPTIONS.filter((c) => frame >= c.from - 2 && frame <= c.to + 2);
 
@@ -59,6 +64,8 @@ export const Subtitles: React.FC<{
               style={{
                 position: 'relative',
                 maxWidth,
+                transform: `scale(${plate})`,
+                transformOrigin: '50% 100%',
                 padding: '18px 40px 22px',
                 background:
                   'linear-gradient(180deg, rgba(6,4,14,0.72), rgba(6,4,14,0.88))',
