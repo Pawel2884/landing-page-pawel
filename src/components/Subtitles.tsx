@@ -1,8 +1,9 @@
 import React from 'react';
-import {AbsoluteFill, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, useCurrentFrame, useVideoConfig} from 'remotion';
 import {CAPTIONS} from '../script';
 import {COLORS, FONTS} from '../theme';
 import {easeOutExpo, inOut} from '../lib/anim';
+import {STAGE_H, STAGE_W} from './Stage';
 
 /**
  * Napisy PL - reklama jest bez lektora, wiec to one niosa cala tresc.
@@ -15,6 +16,13 @@ export const Subtitles: React.FC<{
   maxWidth?: number | string;
 }> = ({bottom = 96, fontSize = 46, maxWidth = '78%'}) => {
   const frame = useCurrentFrame();
+  const {width, height} = useVideoConfig();
+
+  // W kadrach pionowych i kwadratowych sceny zajmuja tylko pas na srodku.
+  // Napisy trzymamy tuz pod tym pasem, zamiast na samym dole ekranu.
+  const stageScale = Math.min(width / STAGE_W, height / STAGE_H);
+  const letterbox = (height - STAGE_H * stageScale) / 2;
+  const bottomOffset = bottom + letterbox;
 
   const active = CAPTIONS.filter((c) => frame >= c.from - 2 && frame <= c.to + 2);
 
@@ -40,7 +48,7 @@ export const Subtitles: React.FC<{
               position: 'absolute',
               left: 0,
               right: 0,
-              bottom,
+              bottom: bottomOffset,
               display: 'flex',
               justifyContent: 'center',
               opacity: vis,

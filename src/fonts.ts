@@ -61,7 +61,7 @@ export const loadFonts = (): void => {
     retries: 2,
   });
 
-  Promise.all(
+  const loadAll = Promise.all(
     SPECS.map(async (spec) => {
       try {
         const face = new FontFace(spec.family, `url(${spec.data}) format('woff2')`, {
@@ -76,5 +76,15 @@ export const loadFonts = (): void => {
         console.error(`Nie udalo sie zaladowac ${spec.family} ${spec.weight}`, err);
       }
     }),
-  ).then(() => continueRender(handle));
+  );
+
+  // Bezpiecznik: przy rownoleglym renderze ciezkich klatek nowo otwarta karta
+  // potrafi zaglodzic sie na tyle, ze obietnica nigdy nie wraca w terminie
+  // delayRender i cały render pada. Dane fontow sa w kodzie (data URI), wiec
+  // po 15 s i tak sa na pewno gotowe - puszczamy klatke dalej.
+  const safety = new Promise<void>((resolve) => {
+    setTimeout(resolve, 15000);
+  });
+
+  Promise.race([loadAll, safety]).then(() => continueRender(handle));
 };
