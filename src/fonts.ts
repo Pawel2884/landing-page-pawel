@@ -1,4 +1,3 @@
-import {continueRender, delayRender} from 'remotion';
 import {
   MONO_LATIN_400,
   MONO_LATIN_700,
@@ -13,8 +12,15 @@ import {
 } from './generated/font-data';
 
 /**
- * Fonty siedza w kodzie jako data URI (patrz scripts/build-fonts.mjs).
- * Zero requestow sieciowych przy renderze - zero zawieszonych delayRender.
+ * Fonty siedza w kodzie jako data URI (patrz scripts/build-fonts.mjs)
+ * i wstrzykujemy je zwyklym @font-face w <head>.
+ *
+ * Dlaczego nie FontFace + delayRender, jak w typowym projekcie Remotion?
+ * Bo przy rownoleglym renderze ciezkich klatek swiezo otwarta karta potrafi
+ * stanac na tyle, ze zadna obietnica (ani nawet setTimeout) nie wraca w
+ * terminie delayRender. Render sypal sie wtedy w losowych klatkach.
+ * Tutaj nie ma na co czekac: dane fontu sa juz w dokumencie, bez sieci,
+ * a `font-display: block` gwarantuje, ze tekst nie mignie zapasowym krojem.
  *
  * Subset "latin" + "latin-ext" razem pokrywaja polskie znaki:
  * "o z kreska" (U+00F3) jest w latin, reszta (a, c, e, l, n, s, z, z) w latin-ext.
@@ -48,43 +54,25 @@ const SPECS: FontSpec[] = [
   {family: 'JetBrains Mono', data: MONO_LATIN_EXT_700, weight: '700', unicodeRange: LATIN_EXT},
 ];
 
-let started = false;
+const STYLE_ID = 'claude-ad-fonts';
 
 export const loadFonts = (): void => {
-  if (started || typeof document === 'undefined') {
+  if (typeof document === 'undefined' || document.getElementById(STYLE_ID)) {
     return;
   }
-  started = true;
 
-  const handle = delayRender('Ladowanie fontow pikselowych', {
-    timeoutInMilliseconds: 60000,
-    retries: 2,
-  });
+  const style = document.createElement('style');
+  style.id = STYLE_ID;
+  style.textContent = SPECS.map(
+    (spec) => `@font-face {
+  font-family: '${spec.family}';
+  font-style: normal;
+  font-weight: ${spec.weight};
+  font-display: block;
+  src: url(${spec.data}) format('woff2');
+  unicode-range: ${spec.unicodeRange};
+}`,
+  ).join('\n');
 
-  const loadAll = Promise.all(
-    SPECS.map(async (spec) => {
-      try {
-        const face = new FontFace(spec.family, `url(${spec.data}) format('woff2')`, {
-          weight: spec.weight,
-          unicodeRange: spec.unicodeRange,
-        });
-        await face.load();
-        document.fonts.add(face);
-      } catch (err) {
-        // Jeden nieudany subset nie moze zablokowac calego renderu.
-        // eslint-disable-next-line no-console
-        console.error(`Nie udalo sie zaladowac ${spec.family} ${spec.weight}`, err);
-      }
-    }),
-  );
-
-  // Bezpiecznik: przy rownoleglym renderze ciezkich klatek nowo otwarta karta
-  // potrafi zaglodzic sie na tyle, ze obietnica nigdy nie wraca w terminie
-  // delayRender i cały render pada. Dane fontow sa w kodzie (data URI), wiec
-  // po 15 s i tak sa na pewno gotowe - puszczamy klatke dalej.
-  const safety = new Promise<void>((resolve) => {
-    setTimeout(resolve, 15000);
-  });
-
-  Promise.race([loadAll, safety]).then(() => continueRender(handle));
+  document.head.appendChild(style);
 };
