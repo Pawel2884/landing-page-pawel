@@ -3,12 +3,29 @@
 Cel: zastąpić starą stronę główną szybką wersją z naprawionym pikselem.
 **Panel kursu (`/panel/`) zostaje nietknięty** — podmieniamy tylko stronę sprzedażową.
 
-## Krok 0 — jedna rzecz do uzupełnienia w pliku
+## Krok 0 — dwie rzeczy w pliku + wymogi prawne
 
-W `index.html`, linia z `var CHECKOUT_URL = "USTAW_LINK_DO_KOSZYKA_EASYTOOLS"`:
+**(a) Link do koszyka.** W `index.html`, linia
+`var CHECKOUT_URL = "USTAW_LINK_DO_KOSZYKA_EASYTOOLS"`:
 wklej pełny link do koszyka easy.tools — ten sam, do którego prowadził
-przycisk „Kup" na starej stronie. Bez tego przyciski zostaną na `#kup`
-(strona działa, ale nie sprzedaje!).
+przycisk „Kup" na starej stronie. Dopóki go nie ustawisz, strona pokazuje
+**czerwony pasek ostrzegawczy** na górze i nie wysyła zdarzeń AddToCart —
+nie da się przypadkiem wdrożyć „ślepej" wersji.
+
+**(b) Baner zgody cookies.** `var REQUIRE_CONSENT = true` — pixel odpala się
+po tapnięciu „OK, rozumiem" (wymóg Prawa komunikacji elektronicznej / RODO
+dla cookies marketingowych). Możesz ustawić `false` — pełny sygnał od
+pierwszej sekundy, ale prawnie na Twoją odpowiedzialność. Decyzja należy
+do Ciebie; domyślnie zostawiłem wariant zgodny z prawem.
+
+**(c) Stopka — wymagane przed kampanią.** Sprzedajesz treści cyfrowe
+konsumentom, więc na stronie MUSZĄ być: pełne dane firmy (nazwa, adres,
+NIP — NIP już wpisany), **regulamin sprzedaży** i **polityka prywatności**
+(linki `/regulamin` i `/polityka-prywatnosci` już są w stopce — opublikuj
+pod nimi dokumenty). W koszyku easy.tools włącz checkbox zgody na
+natychmiastowe dostarczenie treści cyfrowej (utrata 14-dniowego prawa
+odstąpienia) — bez tego klient może żądać zwrotu przez 14 dni nawet po
+przerobieniu kursu.
 
 ## Krok 1 — backup starej strony
 

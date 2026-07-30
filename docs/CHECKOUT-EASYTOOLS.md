@@ -24,13 +24,19 @@ Obecny bump: „Prompty, które robią kreacje, reklamy i strony" 37 zł — kup
 
 Zmień opis bumpa na (do wklejenia):
 
-> **☑ Dorzuć „Prompty do kreacji, reklam i stron" — 37 zł zamiast 67 zł**
+> **☑ Dorzuć „Prompty do kreacji, reklam i stron” +37 zł**
 > 24 gotowe prompty, które robią za Ciebie grafiki reklamowe, teksty reklam
-> i sekcje stron. Dokupisz później za 67 zł — w koszyku bierzesz za 37 zł.
+> i sekcje stron. Jedno kliknięcie teraz — osobno ten pakiet kupisz tylko
+> w wyższej cenie.
 
-Zasady: checkbox tuż nad przyciskiem płatności, cena zakotwiczona (37 vs 67),
-korzyść w pierwszej linii. *(Cenę 67 zł ustaw wtedy realnie jako cenę regularną
-produktu — inaczej narusza to Omnibus.)*
+Zasady: checkbox tuż nad przyciskiem płatności, korzyść w pierwszej linii.
+
+⚠️ **Omnibus:** kotwica typu „37 zł zamiast 67 zł" to formalnie ogłoszenie
+obniżki — wymaga pokazania najniższej ceny z ostatnich 30 dni i realnej
+sprzedaży po 67 zł wcześniej. Dopóki tego nie masz, pisz o wartości
+(„osobno drożej"), nie o przekreślonej cenie. Ostatnia linia powyżej jest
+legalna tylko, jeśli pakiet naprawdę sprzedajesz osobno drożej (np. 67 zł
+jako samodzielny produkt w easy.tools — ustaw to najpierw).
 
 Cel: attach rate 20% ⇒ przy 80 zakupach/mc to **+590 zł/mc bez ruchu**.
 
@@ -48,7 +54,20 @@ Potem daj znać Claude'owi w tej sesji — uruchomi scenariusz SETUP (założy l
 zapisze ID) i aktywuje sync. Od tego momentu każdy kupujący wypada z sekwencji
 koszykowej automatycznie, a porzucający dostają serię A.
 
-## D. Test całej ścieżki (bez śmiecenia w danych!)
+## D. Opinie kursantów w 48 h (do sekcji „Kto to prowadzi?")
+
+Masz maile wszystkich kupujących. Wyślij do 10–15 ostatnich prostą prośbę:
+
+> Temat: Jedno pytanie o kurs (2 minuty)
+> Cześć! Kupiłeś/aś „Claude w praktyce" — powiedz mi proszę w 2-3 zdaniach:
+> co konkretnie udało Ci się zrobić z pomocą kursu? Najciekawsze odpowiedzi
+> (za Twoją zgodą, z imieniem) trafią na stronę kursu. Dzięki! Paweł
+
+3 odpowiedzi wystarczą na start. Social proof to największa brakująca
+dźwignia konwersji na tej stronie (miejsce jest gotowe w `index.html`,
+komentarz `TODO(Paweł)` w sekcji autora).
+
+## E. Test całej ścieżki (bez śmiecenia w danych!)
 
 Test rób tak: wejdź na stronę z `?nopixel=1`, kup za pełną cenę ze SWOJEGO maila
 `pawel.kwiatek1177@gmail.com` — scenariusz CAPI i tak Cię odfiltruje, a płatność
