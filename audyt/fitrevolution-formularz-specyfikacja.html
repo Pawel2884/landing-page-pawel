@@ -1,0 +1,727 @@
+<title>FitRevolution — formularz błyskawiczny: specyfikacja do przeklikania</title>
+
+<style>
+  :root {
+    color-scheme: light dark;
+
+    --ground:      #eef1f4;
+    --panel:       #ffffff;
+    --panel-sunk:  #e5eaef;
+    --hair:        #cdd6de;
+    --hair-soft:   #dde4ea;
+
+    --ink:         #0f151b;
+    --ink-mid:     #46545f;
+    --ink-soft:    #6b7a86;
+
+    --accent:      #1f5c8b;
+    --accent-ink:  #16455f;
+    --accent-wash: #dce8f1;
+
+    --crit:        #b32d22;
+    --crit-wash:   #f7dedb;
+    --warn:        #8f5a0a;
+    --warn-wash:   #f8e9d2;
+    --ok:          #21694a;
+    --ok-wash:     #d9ecdf;
+
+    --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+    --measure: 68ch;
+    --pad: clamp(1.1rem, 4vw, 2.75rem);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0c1116; --panel: #141b22; --panel-sunk: #1b242d;
+      --hair: #2b3742; --hair-soft: #222d36;
+      --ink: #e7edf2; --ink-mid: #a8b6c1; --ink-soft: #7d8d99;
+      --accent: #6cb2dd; --accent-ink: #9ecdea; --accent-wash: #16303f;
+      --crit: #f0857a; --crit-wash: #3a1a17;
+      --warn: #e0ac5c; --warn-wash: #35270f;
+      --ok: #6fc79a; --ok-wash: #12301f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0c1116; --panel: #141b22; --panel-sunk: #1b242d;
+    --hair: #2b3742; --hair-soft: #222d36;
+    --ink: #e7edf2; --ink-mid: #a8b6c1; --ink-soft: #7d8d99;
+    --accent: #6cb2dd; --accent-ink: #9ecdea; --accent-wash: #16303f;
+    --crit: #f0857a; --crit-wash: #3a1a17;
+    --warn: #e0ac5c; --warn-wash: #35270f;
+    --ok: #6fc79a; --ok-wash: #12301f;
+  }
+  :root[data-theme="light"] {
+    --ground: #eef1f4; --panel: #ffffff; --panel-sunk: #e5eaef;
+    --hair: #cdd6de; --hair-soft: #dde4ea;
+    --ink: #0f151b; --ink-mid: #46545f; --ink-soft: #6b7a86;
+    --accent: #1f5c8b; --accent-ink: #16455f; --accent-wash: #dce8f1;
+    --crit: #b32d22; --crit-wash: #f7dedb;
+    --warn: #8f5a0a; --warn-wash: #f8e9d2;
+    --ok: #21694a; --ok-wash: #d9ecdf;
+  }
+
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--sans); font-size: 16px; line-height: 1.62;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 60rem; margin: 0 auto; padding: var(--pad) var(--pad) 5rem; }
+  .prose { max-width: var(--measure); }
+  p { margin: 0 0 0.95em; }
+  strong { font-weight: 650; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.13em;
+    text-transform: uppercase; color: var(--ink-soft); margin: 0;
+  }
+
+  .masthead { border-top: 3px solid var(--accent); padding-top: 1.4rem; margin-bottom: 2.5rem; }
+  .masthead h1 {
+    font-size: clamp(1.75rem, 5vw, 2.8rem); line-height: 1.07; letter-spacing: -0.028em;
+    font-weight: 700; text-wrap: balance; margin: 0.5rem 0 0.9rem; max-width: 21ch;
+  }
+  .standfirst {
+    font-size: clamp(1rem, 2.3vw, 1.14rem); color: var(--ink-mid);
+    max-width: 58ch; margin: 0 0 1.6rem; text-wrap: pretty;
+  }
+  .meta-row {
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem;
+    font-family: var(--mono); font-size: 0.74rem; color: var(--ink-soft);
+    border-top: 1px solid var(--hair-soft); padding-top: 0.9rem;
+  }
+  .meta-row b { color: var(--ink-mid); font-weight: 500; }
+
+  section { margin: 0 0 3.2rem; }
+  h2 {
+    font-size: clamp(1.25rem, 3.2vw, 1.6rem); letter-spacing: -0.02em; font-weight: 680;
+    line-height: 1.18; margin: 0.35rem 0 1.2rem; text-wrap: balance;
+  }
+  h3 {
+    font-size: 1.05rem; font-weight: 650; letter-spacing: -0.008em;
+    margin: 2.2rem 0 0.8rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--hair-soft);
+  }
+  h4 { font-size: 0.95rem; font-weight: 650; margin: 1.5rem 0 0.5rem; }
+  .rule { border: 0; border-top: 1px solid var(--hair); margin: 0 0 1.3rem; }
+
+  ul, ol { margin: 0 0 0.95em; padding-left: 1.25rem; }
+  li { margin-bottom: 0.35rem; }
+  li:last-child { margin-bottom: 0; }
+
+  code {
+    font-family: var(--mono); font-size: 0.86em; background: var(--panel-sunk);
+    padding: 0.1em 0.36em; border-radius: 2px; color: var(--accent-ink);
+  }
+
+  /* copy-paste block */
+  .copy {
+    background: var(--panel); border: 1px solid var(--hair);
+    border-left: 4px solid var(--ok); margin: 0 0 1.1rem;
+  }
+  .copy-head {
+    display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; align-items: baseline;
+    padding: 0.6rem 1rem; border-bottom: 1px solid var(--hair-soft);
+    background: var(--panel-sunk);
+  }
+  .copy-head .lbl {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.11em;
+    text-transform: uppercase; color: var(--ok); font-weight: 600;
+  }
+  .copy-head .cnt {
+    font-family: var(--mono); font-size: 0.66rem; color: var(--ink-soft);
+    margin-left: auto; font-variant-numeric: tabular-nums;
+  }
+  .copy-body { padding: 0.9rem 1rem 1rem; }
+  .copy-body p { margin: 0 0 0.5em; }
+  .copy-body p:last-child, .copy-body ul:last-child { margin-bottom: 0; }
+  .copy-body ul { margin-bottom: 0; padding-left: 1.15rem; }
+
+  .ph {
+    background: var(--warn-wash); color: var(--warn); font-weight: 650;
+    font-family: var(--mono); font-size: 0.82em; padding: 0.08em 0.35em;
+    border-radius: 2px; white-space: nowrap;
+  }
+
+  .path {
+    font-family: var(--mono); font-size: 0.78rem; background: var(--panel-sunk);
+    border-left: 3px solid var(--accent); padding: 0.65rem 0.9rem;
+    margin: 0 0 1.1rem; overflow-x: auto; white-space: nowrap; color: var(--ink-mid);
+  }
+
+  .callout {
+    border: 1px solid var(--hair); border-left: 4px solid var(--warn);
+    background: var(--panel); padding: 1.05rem 1.35rem 1.15rem; margin: 0 0 1.4rem;
+  }
+  .callout.stop { border-left-color: var(--crit); }
+  .callout.stop .eyebrow { color: var(--crit); }
+  .callout .eyebrow { color: var(--warn); margin-bottom: 0.45rem; }
+  .callout p, .callout ul { max-width: var(--measure); }
+  .callout > :last-child { margin-bottom: 0; }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--hair);
+    padding: 1.3rem var(--pad) 1.5rem 1.5rem; margin-bottom: 1.4rem;
+    border-left: 4px solid var(--accent);
+  }
+  .card > :last-child { margin-bottom: 0; }
+  .card p, .card ul, .card ol { max-width: var(--measure); }
+
+  .scroll {
+    overflow-x: auto; border: 1px solid var(--hair); background: var(--panel);
+    margin-bottom: 1.4rem; -webkit-overflow-scrolling: touch;
+  }
+  table { border-collapse: collapse; width: 100%; min-width: 36rem; font-size: 0.85rem; }
+  caption {
+    text-align: left; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-soft);
+    padding: 0.85rem 1rem 0.7rem; border-bottom: 1px solid var(--hair-soft);
+  }
+  th, td {
+    padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid var(--hair-soft);
+    vertical-align: top;
+  }
+  thead th {
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--ink-soft); font-weight: 500; white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody th { font-weight: 550; }
+  .old { color: var(--ink-soft); text-decoration: line-through; }
+  .new { color: var(--ok); font-weight: 550; }
+
+  .step {
+    background: var(--panel); border: 1px solid var(--hair);
+    padding: 1.15rem 1.4rem 1.3rem; margin-bottom: 0.8rem;
+    display: grid; grid-template-columns: 2.1rem 1fr; gap: 0 1rem; align-items: start;
+  }
+  .step > input[type="checkbox"] {
+    grid-row: 1 / span 2; width: 1.15rem; height: 1.15rem; margin: 0.25rem 0 0;
+    accent-color: var(--accent); cursor: pointer;
+  }
+  .step > input[type="checkbox"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .step-body { grid-column: 2; }
+  .step-body > :last-child { margin-bottom: 0; }
+  .step-title { font-size: 0.98rem; font-weight: 650; margin: 0 0 0.4rem; line-height: 1.32; }
+  .step:has(> input:checked) { opacity: 0.55; }
+  .step:has(> input:checked) .step-title { text-decoration: line-through; }
+
+  footer {
+    border-top: 1px solid var(--hair); padding-top: 1.3rem; margin-top: 3.5rem;
+    font-family: var(--mono); font-size: 0.72rem; color: var(--ink-soft);
+    line-height: 1.7; max-width: var(--measure);
+  }
+  footer a { color: var(--accent); }
+
+  @media (max-width: 34rem) {
+    .card, .callout, .step { padding-left: 1.1rem; padding-right: 1.1rem; }
+    .step { grid-template-columns: 1.7rem 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Specyfikacja wykonawcza — formularz błyskawiczny</p>
+    <h1>Formularz FitRevolution: gotowiec do przeklikania</h1>
+    <p class="standfirst">
+      Wszystkie teksty są napisane do skopiowania jeden do jednego. Żółte pola
+      to jedyne miejsca, w których musisz podstawić dane od klienta.
+      Dokument zakłada, że naprawa konta z audytu jest już wdrożona.
+    </p>
+    <div class="meta-row">
+      <span><b>Konto</b> FitRevolution&nbsp;— KwiatekMedia</span>
+      <span><b>Cel</b> konwersja formularza 3,06% → 10–12%</span>
+      <span><b>Czas</b> ~40 minut</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="callout stop">
+      <p class="eyebrow">Przeczytaj zanim klikniesz „Utwórz"</p>
+      <p>
+        <strong>Opublikowanego formularza Meta nie da się edytować.</strong> Gdy tylko
+        zostanie użyty w reklamie, jedyne co możesz zrobić, to go zduplikować i poprawić kopię —
+        a nowy formularz startuje z zerową historią. Dlatego uzupełnij żółte pola
+        <em>przed</em> wejściem do kreatora, nie w trakcie.
+      </p>
+    </div>
+
+    <h2>Trzy rzeczy do ustalenia z klientem</h2>
+    <div class="scroll">
+      <table>
+        <caption>Bez tego nie ma sensu zaczynać</caption>
+        <thead>
+          <tr><th>Dane</th><th>Dlaczego to ważne</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th><span class="ph">[CENA]</span></th>
+            <td>Czy trening diagnostyczny jest <strong>bezpłatny</strong> czy płatny, i ile kosztuje. To najmocniejsze zdanie w całym formularzu. „Bezpłatny" podnosi wypełnienia, ale ściąga też ciekawskich — jeśli klient narzeka na jakość, lepsza jest niska cena symboliczna niż zero.</td>
+          </tr>
+          <tr>
+            <th><span class="ph">[TELEFON]</span></th>
+            <td>Numer, z którego zadzwoni klient. Podany na ekranie końcowym drastycznie zmniejsza liczbę nieodebranych połączeń — ludzie nie odbierają od nieznanych numerów.</td>
+          </tr>
+          <tr>
+            <th><span class="ph">[POLITYKA]</span></th>
+            <td>Link do polityki prywatności. Meta <strong>nie pozwoli</strong> opublikować formularza bez niego. Musi być aktywny adres, nie strona główna.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose">
+      Opcjonalnie przydadzą się jeszcze: czas trwania treningu diagnostycznego
+      (<span class="ph">[CZAS]</span>, np. 50 minut) i godziny, w których klient oddzwania.
+      Poniższe teksty mają je wpisane w naturalnych miejscach.
+    </p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Gdzie to jest</p>
+    <hr class="rule">
+    <h2>Ścieżka w Menedżerze reklam</h2>
+    <div class="path">Menedżer reklam → Wszystkie narzędzia → Biblioteka formularzy błyskawicznych → Utwórz → Nowy formularz</div>
+    <p class="prose">
+      Alternatywnie z poziomu reklamy: <em>Reklama → Formularz błyskawiczny → Utwórz formularz</em>.
+      Robienie tego w Bibliotece jest lepsze — formularz powstaje raz i podpinasz go
+      pod wszystkie reklamy, zamiast tworzyć osobny przy każdej.
+    </p>
+    <p class="prose">
+      Budujesz <strong>dwa formularze</strong>: osobny dla dorosłych i osobny dla dzieci.
+      Przekaz jest inny, więc ekran powitalny też musi być inny — jeden wspólny formularz
+      zabiłby połowę efektu.
+    </p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Formularz A</p>
+    <hr class="rule">
+    <h2>Dorośli — trening diagnostyczny</h2>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Nazwa formularza</span><span class="cnt">wewnętrzna, klient nie widzi</span></div>
+      <div class="copy-body"><p>FitRevolution | DOROŚLI | trening diagnostyczny | 08.2026</p></div>
+    </div>
+
+    <h4>Typ formularza</h4>
+    <p class="prose">
+      Wybierz <strong>„Większa liczba potencjalnych klientów"</strong> (More volume).
+      Nie „Większe zamiary" — ta wersja dokłada ekran potwierdzenia, a przy konwersji 3%
+      każdy dodatkowy ekran to strata. Do „Większych zamiarów" wrócisz, gdy wypełnienia
+      przekroczą 12% i zaczniesz filtrować jakość.
+    </p>
+
+    <h3>Ekran powitalny</h3>
+    <p class="prose">
+      Włącz go — to jest właśnie miejsce, w którym naprawiasz rozjazd między przyciskiem
+      a formularzem. Bez tego ekranu człowiek przechodzi od „Zarezerwuj" prosto do prośby
+      o numer telefonu i ucieka.
+    </p>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Nagłówek</span><span class="cnt">46 znaków</span></div>
+      <div class="copy-body"><p>Trening diagnostyczny: sprawdź, od czego zacząć</p></div>
+    </div>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Układ treści</span><span class="cnt">wybierz „Lista"</span></div>
+      <div class="copy-body">
+        <ul>
+          <li>Wywiad, testy ruchowe i ocena postawy — realny obraz Twojego ciała</li>
+          <li>Plan układają razem trener, fizjoterapeuta i dietetyk</li>
+          <li>Wychodzisz z konkretnym punktem startu, nie z ulotką</li>
+          <li>Oddzwaniamy tego samego dnia roboczego</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Zdanie o cenie — dopisz jako pierwszy punkt listy</span></div>
+      <div class="copy-body">
+        <p>Jeśli bezpłatny: <strong>Pierwszy trening diagnostyczny jest bezpłatny (<span class="ph">[CZAS]</span>)</strong></p>
+        <p>Jeśli płatny: <strong>Trening diagnostyczny <span class="ph">[CENA]</span> zł, <span class="ph">[CZAS]</span> — odliczamy go od pierwszego karnetu</strong></p>
+      </div>
+    </div>
+
+    <p class="prose">
+      <strong>Obrazek ekranu powitalnego:</strong> ustaw tę samą grafikę, która jest w reklamie.
+      Ciągłość wizualna między reklamą a formularzem to darmowe kilka procent wypełnień.
+    </p>
+
+    <h3>Pytania</h3>
+    <p class="prose">
+      Trzy pozycje, z czego dwie podpowiadają się same. Realny wysiłek użytkownika
+      to jedno dotknięcie.
+    </p>
+
+    <div class="scroll">
+      <table>
+        <caption>Formularz A — pytania</caption>
+        <thead>
+          <tr><th>#</th><th>Pole</th><th>Typ</th><th>Uwaga</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><th>Imię i nazwisko</th><td>Dane kontaktowe</td><td>podpowiada się z profilu</td></tr>
+          <tr><td>2</td><th>Numer telefonu</th><td>Dane kontaktowe</td><td>podpowiada się, jeśli użytkownik ma numer w profilu</td></tr>
+          <tr><td>3</td><th>Gdzie chcesz trenować?</th><td>Pytanie własne → Wielokrotny wybór</td><td>jedno dotknięcie, konieczne operacyjnie</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Pytanie 3 — treść i odpowiedzi</span></div>
+      <div class="copy-body">
+        <p><strong>Pytanie:</strong> Gdzie chcesz trenować?</p>
+        <ul>
+          <li>Lublin</li>
+          <li>Rzeszów</li>
+          <li>Olsztyn</li>
+          <li>Mińsk Mazowiecki</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p class="eyebrow">Czego nie dodawać</p>
+      <p>
+        <strong>Bez e-maila.</strong> Do umówienia treningu wystarczy telefon, a drugie pole
+        kontaktowe kosztuje więcej wypełnień, niż daje pożytku.
+      </p>
+      <p>
+        <strong>Bez pytań otwartych.</strong> Żadnego „Opisz swój cel" ani „Jaki masz staż
+        treningowy" — pole tekstowe do ręcznego wpisania to najdroższy element formularza.
+        Te rzeczy ustalicie przez telefon.
+      </p>
+      <p>
+        <strong>Telefon nie zawsze podpowie się sam</strong> — spora część polskich kont
+        nie ma numeru w profilu. To normalne i nie jest powodem, żeby dokładać e-mail
+        „na zapas".
+      </p>
+    </div>
+
+    <h3>Ekran zakończenia</h3>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Nagłówek</span></div>
+      <div class="copy-body"><p>Gotowe — dzwonimy do Ciebie</p></div>
+    </div>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Opis</span></div>
+      <div class="copy-body">
+        <p>Odezwiemy się z numeru <span class="ph">[TELEFON]</span> jeszcze dziś, w godzinach pracy, i ustalimy termin. Nie chcesz czekać? Zadzwoń do nas teraz.</p>
+      </div>
+    </div>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Przycisk ekranu końcowego</span></div>
+      <div class="copy-body">
+        <p><strong>Typ:</strong> Zadzwoń do firmy &nbsp;·&nbsp; <strong>Tekst:</strong> Zadzwoń teraz &nbsp;·&nbsp; <strong>Numer:</strong> <span class="ph">[TELEFON]</span></p>
+      </div>
+    </div>
+
+    <h3>Ustawienia końcowe</h3>
+    <ul class="prose">
+      <li><strong>Polityka prywatności:</strong> <span class="ph">[POLITYKA]</span> — pole obowiązkowe</li>
+      <li><strong>Język formularza:</strong> polski</li>
+      <li><strong>Udostępnianie:</strong> Ograniczone (tylko osoby, które zobaczyły reklamę)</li>
+      <li><strong>Dodatkowe zgody marketingowe:</strong> dodaj wyłącznie jeśli klient ich formalnie potrzebuje. Każdy checkbox obniża wypełnienia, a do oddzwonienia w sprawie zapytania standardowy link do polityki zwykle wystarcza.</li>
+    </ul>
+  </section>
+
+  <section>
+    <p class="eyebrow">Formularz B</p>
+    <hr class="rule">
+    <h2>Dzieci — trening diagnostyczny</h2>
+    <p class="prose">
+      Identyczna konstrukcja, inny odbiorca: mówisz do rodzica o dziecku, nie do osoby
+      o niej samej. Wszystko poniżej zastępuje odpowiedniki z formularza A.
+    </p>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Nazwa formularza</span></div>
+      <div class="copy-body"><p>FitRevolution | DZIECI | trening diagnostyczny | 08.2026</p></div>
+    </div>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Nagłówek ekranu powitalnego</span><span class="cnt">40 znaków</span></div>
+      <div class="copy-body"><p>Trening diagnostyczny dla Twojego dziecka</p></div>
+    </div>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Lista na ekranie powitalnym</span></div>
+      <div class="copy-body">
+        <ul>
+          <li>Sprawdzamy mocne i słabe strony ruchowe dziecka</li>
+          <li>Prowadzi trener przygotowania motorycznego, nie przypadkowa osoba</li>
+          <li>Wspieramy to, co dziecko robi na treningach klubowych</li>
+          <li>Oddzwaniamy do Ciebie tego samego dnia roboczego</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Pytania</span></div>
+      <div class="copy-body">
+        <p><strong>1.</strong> Imię i nazwisko — dane kontaktowe (rodzic)</p>
+        <p><strong>2.</strong> Numer telefonu — dane kontaktowe</p>
+        <p><strong>3.</strong> Gdzie chcesz trenować? — Lublin / Rzeszów / Olsztyn / Mińsk Mazowiecki</p>
+        <p><strong>4.</strong> Ile lat ma dziecko? — 6–9 lat / 10–12 lat / 13–15 lat / 16+ lat</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p class="eyebrow">Świadomy kompromis przy pytaniu 4</p>
+      <p>
+        Wiek dziecka to czwarta pozycja i owszem, kosztuje trochę wypełnień. Zostawiam ją,
+        bo decyduje o przypisaniu do grupy i oszczędza jeden telefon w obie strony.
+        Jeśli po tygodniu konwersja formularza B będzie wyraźnie niższa niż A —
+        zduplikuj formularz bez tego pytania i porównaj.
+      </p>
+    </div>
+
+    <div class="copy">
+      <div class="copy-head"><span class="lbl">Ekran zakończenia — nagłówek i opis</span></div>
+      <div class="copy-body">
+        <p><strong>Gotowe — dzwonimy do Ciebie</strong></p>
+        <p>Odezwiemy się z numeru <span class="ph">[TELEFON]</span> jeszcze dziś, w godzinach pracy, i ustalimy termin pierwszego treningu. Nie chcesz czekać? Zadzwoń do nas teraz.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Przycisk reklamy</p>
+    <hr class="rule">
+    <h2>Który CTA wybrać</h2>
+    <p class="prose">
+      To druga połowa naprawy. Formularz bez zgodnego przycisku dalej będzie tracił ludzi.
+      Wybierz pierwszą pozycję, która pojawi się na liście rozwijanej — dostępny zestaw
+      bywa różny między kontami.
+    </p>
+    <div class="scroll">
+      <table>
+        <caption>Kolejność preferencji</caption>
+        <thead>
+          <tr><th>Priorytet</th><th>Przycisk</th><th>Dlaczego</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><th>Zarezerwuj</th><td>Najbliżej prawdy: człowiek rezerwuje termin treningu. Zapowiada zobowiązanie, więc klikają ludzie gotowi je podjąć.</td></tr>
+          <tr><td>2</td><th>Umów wizytę</th><td>Równie dobre znaczeniowo, brzmi trochę medycznie — pasuje zwłaszcza do przekazu o bólu pleców i fizjoterapeucie.</td></tr>
+          <tr><td>3</td><th>Zarejestruj się</th><td>Bezpieczny fallback. Gorszy, bo sugeruje zakładanie konta, ale wciąż zgodny z „zostawiam dane".</td></tr>
+          <tr><td>—</td><th class="old">Dowiedz się więcej</th><td>To jest dzisiejszy stan i źródło problemu: obiecuje informację, a podstawia formularz.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Copy</p>
+    <hr class="rule">
+    <h2>Nowe końcówki tekstów reklam</h2>
+    <p class="prose">
+      Zasada jest jedna: <strong>tekst musi wymieniać dokładnie to słowo, które jest na przycisku.</strong>
+      Poniżej zamienniki dla ostatniej linii każdej kreacji, przy założeniu przycisku
+      <strong>„Zarezerwuj"</strong>. Reszta treści zostaje bez zmian.
+    </p>
+    <div class="scroll">
+      <table>
+        <caption>Podmiana ostatniej linii — 8 kreacji z największym wydatkiem</caption>
+        <thead>
+          <tr><th>Kreacja</th><th>Dziś</th><th>Po zmianie</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Zamień ekran na ruch<br><small>CPL 61,30 zł — najlepsza</small></th>
+            <td class="old">Zamień ekran na ruch i umów dziecko na trening wstępny 📩</td>
+            <td class="new">Kliknij „Zarezerwuj" i umów dziecko na trening diagnostyczny 📩</td>
+          </tr>
+          <tr>
+            <th>Przewaga młodego sportowca<br><small>CPL 62,38 zł</small></th>
+            <td class="old">Kliknij Zostaw kontakt i umów trening diagnostyczny.</td>
+            <td class="new">Kliknij „Zarezerwuj" i umów trening diagnostyczny.</td>
+          </tr>
+          <tr>
+            <th>Twoje dziecko może więcej<br><small>CPL 95,78 zł</small></th>
+            <td class="old">Zostaw kontakt i umów dziecko na trening wstępny 📩</td>
+            <td class="new">Kliknij „Zarezerwuj" i umów dziecko na trening diagnostyczny 📩</td>
+          </tr>
+          <tr>
+            <th>Za miesiąc możesz tego żałować<br><small>CPL 109,71 zł</small></th>
+            <td class="old">👉 Zostaw kontakt i zacznij dzisiaj!</td>
+            <td class="new">👉 Kliknij „Zarezerwuj" i umów pierwszy trening na ten tydzień.</td>
+          </tr>
+          <tr>
+            <th>Trenuj tam, gdzie ktoś prowadzi<br><small>CPL 193,55 zł</small></th>
+            <td class="old">Kliknij Zostaw kontakt i umów trening diagnostyczny.</td>
+            <td class="new">Kliknij „Zarezerwuj" i umów trening diagnostyczny w Olsztynie.</td>
+          </tr>
+          <tr>
+            <th>Sprawne i pewne siebie dziecko<br><small>CPL 195,70 zł</small></th>
+            <td class="old">Kliknij Zostaw kontakt i umów trening diagnostyczny.</td>
+            <td class="new">Kliknij „Zarezerwuj" i umów dziecko na trening diagnostyczny w Lublinie.</td>
+          </tr>
+          <tr>
+            <th>Twój najlepszy start na siłowni<br><small>0 leadów</small></th>
+            <td class="old">Umów trening diagnostyczny i zacznij trenować z sensem.</td>
+            <td class="new">Kliknij „Zarezerwuj" i umów trening diagnostyczny. Zaczniesz trenować z sensem.</td>
+          </tr>
+          <tr>
+            <th>Poranna sztywność pleców<br><small>0 leadów</small></th>
+            <td class="old">Kliknij Zostaw kontakt i umów trening diagnostyczny.</td>
+            <td class="new">Kliknij „Zarezerwuj" i umów trening diagnostyczny w Mińsku Mazowieckim.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <p class="eyebrow">Dorzuć zdanie o cenie</p>
+      <p>
+        Żadna z ośmiu kreacji nie mówi, ile to kosztuje ani czy do czegoś zobowiązuje —
+        a to jest pierwsze pytanie w głowie każdego czytelnika. Wstaw jedną linię
+        bezpośrednio nad wezwaniem do działania:
+      </p>
+      <p>
+        <strong>Wersja bezpłatna:</strong> „Pierwszy trening diagnostyczny jest bezpłatny i do niczego nie zobowiązuje."<br>
+        <strong>Wersja płatna:</strong> „Trening diagnostyczny <span class="ph">[CENA]</span> zł — odliczamy go od pierwszego karnetu."
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Wykonanie</p>
+    <hr class="rule">
+    <h2>Jak podmienić reklamy</h2>
+
+    <div class="callout stop">
+      <p class="eyebrow">Dlaczego nie da się po prostu edytować</p>
+      <p>
+        Kreacje reklamowe w Meta są niezmienne. Tekstu, przycisku ani grafiki
+        w istniejącej reklamie nie zmienisz — ani ręcznie, ani przez API. Jedyna droga
+        to <strong>duplikat reklamy</strong>, poprawiony przed publikacją. To dlatego
+        tej części nie mogłem zrobić za Ciebie z poziomu MCP.
+      </p>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="k1" aria-labelledby="k1t">
+      <div class="step-body">
+        <p class="step-title" id="k1t">Zbierz dane od klienta</p>
+        <p>Cena, numer telefonu, link do polityki prywatności, czas trwania treningu.
+        Bez kompletu nie wchodź do kreatora.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="k2" aria-labelledby="k2t">
+      <div class="step-body">
+        <p class="step-title" id="k2t">Zbuduj oba formularze w Bibliotece</p>
+        <p>Formularz A i B według specyfikacji powyżej. Przed publikacją przeczytaj
+        wszystko jeszcze raz — po opublikowaniu nie poprawisz.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="k3" aria-labelledby="k3t">
+      <div class="step-body">
+        <p class="step-title" id="k3t">Zduplikuj zwycięskie reklamy, nie wszystkie</p>
+        <p>
+          Bierz tylko te, które dowożą: <strong>opty 1 | graf. 5 | olsz-dor – kopia</strong> (CPL 43,30 zł),
+          <strong>opty 1 | graf. 2 | lbn-dz</strong> (61,30 zł), <strong>Przewaga młodego sportowca</strong> (62,38 zł),
+          <strong>opty 2 | 1 | 17.07</strong> z Olsztyna (85,08 zł) i Lublina (93,08 zł),
+          <strong>opty 1 | graf 1 | rz-dz</strong> (95,78 zł). Sześć sztuk wystarczy.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="k4" aria-labelledby="k4t">
+      <div class="step-body">
+        <p class="step-title" id="k4t">W duplikacie zmień trzy rzeczy</p>
+        <p>Przycisk na „Zarezerwuj" · końcówkę tekstu z tabeli powyżej · formularz
+        na nowy (A dla dorosłych, B dla dzieci). Grafikę zostaw — działa.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="k5" aria-labelledby="k5t">
+      <div class="step-body">
+        <p class="step-title" id="k5t">Nazwij duplikaty rozpoznawalnie</p>
+        <p>
+          Schemat: <code>[stara nazwa] | CTA-rez | form-v2</code>. Bez tego za trzy dni
+          nie odróżnisz starej wersji od nowej w raporcie.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="k6" aria-labelledby="k6t">
+      <div class="step-body">
+        <p class="step-title" id="k6t">Włącz nowe, wyłącz stare — tego samego dnia</p>
+        <p>
+          Nie zostawiaj obu wersji równolegle na dłużej. Podzielony budżet w zestawie,
+          który i tak nie wychodzi z fazy uczenia, tylko rozmyje wynik.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p class="eyebrow">Uwaga o dowodach społecznych</p>
+      <p>
+        Duplikat startuje z zerem polubień i komentarzy. Jeśli któraś ze starych reklam
+        zebrała sporo reakcji, przy tworzeniu nowej wybierz
+        <em>„Użyj istniejącego posta"</em> i wskaż ten post — zachowasz dorobek.
+        Minus: wtedy nie zmienisz w nim tekstu. Przy tak wysokim CPL zgodność przycisku
+        z treścią jest warta więcej niż polubienia — ale decyzja jest Twoja.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Kontrola</p>
+    <hr class="rule">
+    <h2>Test przed startem i po starcie</h2>
+
+    <h4>Zanim włączysz</h4>
+    <ul class="prose">
+      <li>Otwórz <strong>podgląd formularza</strong> na telefonie, nie na komputerze — 95% ruchu jest mobilne.</li>
+      <li>Sprawdź, czy przycisk na reklamie i słowo w ostatniej linii tekstu to <strong>dokładnie ten sam wyraz</strong>.</li>
+      <li>Kliknij przycisk telefonu na ekranie końcowym — musi realnie wybierać numer.</li>
+      <li>Sprawdź, czy link do polityki prywatności się otwiera.</li>
+      <li>Wyślij <strong>testowy lead</strong> i upewnij się, że dotarł tam, gdzie klient go odbiera. To najczęstsze miejsce, w którym leady giną po cichu.</li>
+    </ul>
+
+    <h4>Po 4 dniach — jedna liczba</h4>
+    <p class="prose">
+      Policz <strong>leady ÷ kliknięcia linku</strong>. Meta nie pokazuje tego wskaźnika w domyślnym
+      widoku, więc dodaj kolumnę „Kliknięcia linku" i podziel ręcznie.
+    </p>
+    <div class="scroll">
+      <table>
+        <caption>Interpretacja</caption>
+        <thead><tr><th>Wynik</th><th>Znaczenie</th><th>Co robisz</th></tr></thead>
+        <tbody>
+          <tr><td><strong>≥ 10%</strong></td><td>Naprawa zadziałała</td><td>Podnoś budżet o 20% co 3 dni, nie szybciej</td></tr>
+          <tr><td><strong>6–10%</strong></td><td>Lepiej, ale formularz wciąż hamuje</td><td>Zduplikuj bez pytania o lokalizację, porównaj tydzień do tygodnia</td></tr>
+          <tr><td><strong>&lt; 6%</strong></td><td>Problem jest w ofercie, nie w ustawieniach</td><td>Wracasz do klienta po mocniejszy konkret: cena, termin, gwarancja</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose">
+      Punkt odniesienia: <strong>dziś jest 3,06%</strong>. Każdy wynik powyżej 6% to już
+      dwukrotność stanu wyjściowego i CPL w okolicach 60 zł zamiast 130 zł.
+    </p>
+  </section>
+
+  <footer>
+    <p>
+      Specyfikacja przygotowana 2 sierpnia 2026 na podstawie audytu konta FitRevolution —
+      KwiatekMedia. Teksty kreacji odczytane z ośmiu kreacji o największym wydatku
+      w kampanii KM 01.07. Benchmark wypełnienia formularza błyskawicznego: 10–15%.
+    </p>
+    <p>KWIATEKmedia · Paweł Kwiatek</p>
+  </footer>
+
+</div>
