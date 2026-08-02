@@ -1,0 +1,1223 @@
+<title>FitRevolution — audyt kampanii Meta Ads i system naprawczy</title>
+
+<style>
+  :root {
+    color-scheme: light dark;
+
+    --ground:      #eef1f4;
+    --panel:       #ffffff;
+    --panel-sunk:  #e5eaef;
+    --hair:        #cdd6de;
+    --hair-soft:   #dde4ea;
+
+    --ink:         #0f151b;
+    --ink-mid:     #46545f;
+    --ink-soft:    #6b7a86;
+
+    --accent:      #1f5c8b;
+    --accent-ink:  #16455f;
+    --accent-wash: #dce8f1;
+
+    --crit:        #b32d22;
+    --crit-wash:   #f7dedb;
+    --warn:        #8f5a0a;
+    --warn-wash:   #f8e9d2;
+    --ok:          #21694a;
+    --ok-wash:     #d9ecdf;
+
+    --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+    --measure: 68ch;
+    --pad: clamp(1.1rem, 4vw, 2.75rem);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground:      #0c1116;
+      --panel:       #141b22;
+      --panel-sunk:  #1b242d;
+      --hair:        #2b3742;
+      --hair-soft:   #222d36;
+
+      --ink:         #e7edf2;
+      --ink-mid:     #a8b6c1;
+      --ink-soft:    #7d8d99;
+
+      --accent:      #6cb2dd;
+      --accent-ink:  #9ecdea;
+      --accent-wash: #16303f;
+
+      --crit:        #f0857a;
+      --crit-wash:   #3a1a17;
+      --warn:        #e0ac5c;
+      --warn-wash:   #35270f;
+      --ok:          #6fc79a;
+      --ok-wash:     #12301f;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:      #0c1116;
+    --panel:       #141b22;
+    --panel-sunk:  #1b242d;
+    --hair:        #2b3742;
+    --hair-soft:   #222d36;
+
+    --ink:         #e7edf2;
+    --ink-mid:     #a8b6c1;
+    --ink-soft:    #7d8d99;
+
+    --accent:      #6cb2dd;
+    --accent-ink:  #9ecdea;
+    --accent-wash: #16303f;
+
+    --crit:        #f0857a;
+    --crit-wash:   #3a1a17;
+    --warn:        #e0ac5c;
+    --warn-wash:   #35270f;
+    --ok:          #6fc79a;
+    --ok-wash:     #12301f;
+  }
+
+  :root[data-theme="light"] {
+    --ground:      #eef1f4;
+    --panel:       #ffffff;
+    --panel-sunk:  #e5eaef;
+    --hair:        #cdd6de;
+    --hair-soft:   #dde4ea;
+
+    --ink:         #0f151b;
+    --ink-mid:     #46545f;
+    --ink-soft:    #6b7a86;
+
+    --accent:      #1f5c8b;
+    --accent-ink:  #16455f;
+    --accent-wash: #dce8f1;
+
+    --crit:        #b32d22;
+    --crit-wash:   #f7dedb;
+    --warn:        #8f5a0a;
+    --warn-wash:   #f8e9d2;
+    --ok:          #21694a;
+    --ok-wash:     #d9ecdf;
+  }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .wrap {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: var(--pad) var(--pad) 5rem;
+  }
+
+  .prose { max-width: var(--measure); }
+
+  p { margin: 0 0 0.95em; }
+  strong { font-weight: 650; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    border-top: 3px solid var(--accent);
+    padding-top: 1.4rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .masthead h1 {
+    font-size: clamp(1.85rem, 5.2vw, 3.1rem);
+    line-height: 1.06;
+    letter-spacing: -0.028em;
+    font-weight: 700;
+    text-wrap: balance;
+    margin: 0.5rem 0 0.9rem;
+    max-width: 20ch;
+  }
+
+  .standfirst {
+    font-size: clamp(1rem, 2.3vw, 1.16rem);
+    color: var(--ink-mid);
+    max-width: 58ch;
+    margin: 0 0 1.6rem;
+    text-wrap: pretty;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.6rem;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--hair-soft);
+    padding-top: 0.9rem;
+  }
+  .meta-row b { color: var(--ink-mid); font-weight: 500; }
+
+  /* ---------- readout strip ---------- */
+
+  .readout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: 1px;
+    background: var(--hair);
+    border: 1px solid var(--hair);
+    margin: 0 0 3rem;
+  }
+
+  .cell {
+    background: var(--panel);
+    padding: 1.05rem 1.1rem 1.15rem;
+  }
+  .cell .k {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .cell .v {
+    font-family: var(--mono);
+    font-size: clamp(1.35rem, 3.6vw, 1.7rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    display: block;
+    line-height: 1.1;
+  }
+  .cell .n {
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+    display: block;
+    margin-top: 0.35rem;
+    line-height: 1.35;
+  }
+  .v.bad  { color: var(--crit); }
+  .v.warn { color: var(--warn); }
+
+  /* ---------- sections ---------- */
+
+  section { margin: 0 0 3.4rem; }
+
+  h2 {
+    font-size: clamp(1.25rem, 3.2vw, 1.65rem);
+    letter-spacing: -0.02em;
+    font-weight: 680;
+    line-height: 1.18;
+    margin: 0.35rem 0 1.2rem;
+    text-wrap: balance;
+  }
+
+  h3 {
+    font-size: 1.02rem;
+    font-weight: 650;
+    letter-spacing: -0.008em;
+    margin: 2rem 0 0.7rem;
+  }
+
+  .rule {
+    border: 0;
+    border-top: 1px solid var(--hair);
+    margin: 0 0 1.3rem;
+  }
+
+  /* ---------- verdict ---------- */
+
+  .verdict {
+    background: var(--panel);
+    border: 1px solid var(--hair);
+    border-left: 4px solid var(--accent);
+    padding: 1.4rem var(--pad) 1.5rem 1.5rem;
+  }
+  .verdict p:last-child { margin-bottom: 0; }
+  .verdict .lead {
+    font-size: 1.08rem;
+    color: var(--ink);
+  }
+
+  /* ---------- findings ---------- */
+
+  .finding {
+    background: var(--panel);
+    border: 1px solid var(--hair);
+    border-left: 4px solid var(--sev, var(--accent));
+    padding: 1.25rem 1.5rem 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .finding.crit { --sev: var(--crit); }
+  .finding.high { --sev: var(--warn); }
+  .finding.med  { --sev: var(--accent); }
+
+  .finding-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.55rem 0.85rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .idx {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--sev);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sev-tag {
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+  .finding.crit .sev-tag { background: var(--crit-wash); color: var(--crit); }
+  .finding.high .sev-tag { background: var(--warn-wash); color: var(--warn); }
+  .finding.med  .sev-tag { background: var(--accent-wash); color: var(--accent-ink); }
+
+  .finding h4 {
+    font-size: 1.06rem;
+    font-weight: 650;
+    letter-spacing: -0.012em;
+    margin: 0;
+    flex: 1 1 16rem;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+
+  .finding p { max-width: var(--measure); }
+  .finding p:last-child { margin-bottom: 0; }
+
+  .cost {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--sev);
+    background: var(--panel-sunk);
+    display: inline-block;
+    padding: 0.28rem 0.6rem;
+    margin: 0.3rem 0 0.85rem;
+    border-radius: 2px;
+  }
+
+  .fix {
+    background: var(--panel-sunk);
+    border-top: 1px solid var(--hair-soft);
+    margin: 1.1rem -1.5rem -1.4rem;
+    padding: 1rem 1.5rem 1.15rem;
+  }
+  .fix .eyebrow { margin-bottom: 0.5rem; color: var(--ok); }
+  .fix p, .fix ul { max-width: var(--measure); }
+  .fix p:last-child, .fix ul:last-child { margin-bottom: 0; }
+
+  /* ---------- lists ---------- */
+
+  ul, ol { margin: 0 0 0.95em; padding-left: 1.25rem; }
+  li { margin-bottom: 0.35rem; }
+  li:last-child { margin-bottom: 0; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: var(--panel-sunk);
+    padding: 0.1em 0.36em;
+    border-radius: 2px;
+    color: var(--accent-ink);
+  }
+  .finding code, .fix code { background: var(--ground); }
+
+  /* ---------- tables ---------- */
+
+  .scroll {
+    overflow-x: auto;
+    border: 1px solid var(--hair);
+    background: var(--panel);
+    margin-bottom: 1.4rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 34rem;
+    font-size: 0.855rem;
+  }
+
+  caption {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 0.85rem 1rem 0.7rem;
+    border-bottom: 1px solid var(--hair-soft);
+  }
+
+  th, td {
+    padding: 0.55rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--hair-soft);
+    vertical-align: baseline;
+  }
+  thead th {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.num, th.num {
+    text-align: right;
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  tbody th {
+    font-weight: 550;
+    white-space: nowrap;
+  }
+  tr.total td, tr.total th {
+    border-top: 2px solid var(--hair);
+    font-weight: 650;
+    background: var(--panel-sunk);
+  }
+
+  .pill {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.16rem 0.44rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .pill.err  { background: var(--crit-wash);   color: var(--crit); }
+  .pill.live { background: var(--ok-wash);     color: var(--ok); }
+  .pill.off  { background: var(--panel-sunk);  color: var(--ink-soft); }
+
+  .fig-bad  { color: var(--crit); font-weight: 600; }
+  .fig-good { color: var(--ok);   font-weight: 600; }
+
+  /* ---------- repair steps ---------- */
+
+  .step {
+    background: var(--panel);
+    border: 1px solid var(--hair);
+    padding: 1.2rem 1.5rem 1.35rem;
+    margin-bottom: 0.85rem;
+    display: grid;
+    grid-template-columns: 2.1rem 1fr;
+    gap: 0 1rem;
+    align-items: start;
+  }
+
+  .step > input[type="checkbox"] {
+    grid-row: 1 / span 3;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin: 0.25rem 0 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .step > input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .step-title {
+    font-size: 1rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.15rem;
+    line-height: 1.32;
+  }
+  .step-when {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 0.65rem;
+  }
+  .step-body { grid-column: 2; }
+  .step-body p, .step-body ul, .step-body ol { max-width: var(--measure); }
+  .step-body > :last-child { margin-bottom: 0; }
+
+  .step:has(> input:checked) { opacity: 0.55; }
+  .step:has(> input:checked) .step-title { text-decoration: line-through; }
+
+  .path {
+    font-family: var(--mono);
+    font-size: 0.79rem;
+    background: var(--panel-sunk);
+    border-left: 2px solid var(--accent);
+    padding: 0.6rem 0.85rem;
+    margin: 0 0 0.9rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    color: var(--ink-mid);
+  }
+
+  .callout {
+    border: 1px solid var(--hair);
+    border-left: 4px solid var(--warn);
+    background: var(--panel);
+    padding: 1.1rem 1.4rem 1.2rem;
+    margin: 0 0 1.4rem;
+  }
+  .callout .eyebrow { color: var(--warn); margin-bottom: 0.45rem; }
+  .callout p { max-width: var(--measure); }
+  .callout p:last-child { margin-bottom: 0; }
+
+  footer {
+    border-top: 1px solid var(--hair);
+    padding-top: 1.3rem;
+    margin-top: 3.5rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    max-width: var(--measure);
+  }
+  footer a { color: var(--accent); }
+
+  @media (max-width: 34rem) {
+    .fix { margin-left: -1.1rem; margin-right: -1.1rem; padding-left: 1.1rem; padding-right: 1.1rem; }
+    .finding, .step, .verdict { padding-left: 1.1rem; padding-right: 1.1rem; }
+    .step { grid-template-columns: 1.7rem 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Audyt konta reklamowego — Meta Ads</p>
+    <h1>FitRevolution: dlaczego lead kosztuje 130&nbsp;zł zamiast 40&nbsp;zł</h1>
+    <p class="standfirst">
+      Kampania nie ma problemu z zasięgiem ani z ceną kliknięcia. Ma jeden zepsuty cel
+      optymalizacji, który wyłączył cztery zestawy z wyświetlania, i formularz, który
+      odrzuca 97 na 100 osób, które go otworzyły.
+    </p>
+    <div class="meta-row">
+      <span><b>Konto</b> FitRevolution&nbsp;— KwiatekMedia · <code>3039186546290722</code></span>
+      <span><b>Kampania</b> KM 01.07 · <code>52599855872465</code></span>
+      <span><b>Okres</b> 01.07 – 02.08.2026</span>
+      <span><b>Źródło</b> Meta Marketing API</span>
+    </div>
+  </header>
+
+  <div class="readout">
+    <div class="cell">
+      <span class="k">Wydatki</span>
+      <span class="v">14 283 zł</span>
+      <span class="n">32 dni, 8 zestawów</span>
+    </div>
+    <div class="cell">
+      <span class="k">Leady</span>
+      <span class="v">110</span>
+      <span class="n">3,4 dziennie</span>
+    </div>
+    <div class="cell">
+      <span class="k">Koszt leada</span>
+      <span class="v bad">129,84 zł</span>
+      <span class="n">cel: 30–40 zł</span>
+    </div>
+    <div class="cell">
+      <span class="k">CPL ost. 7 dni</span>
+      <span class="v bad">171,31 zł</span>
+      <span class="n">trend pogarsza się</span>
+    </div>
+    <div class="cell">
+      <span class="k">Konwersja formularza</span>
+      <span class="v bad">3,06%</span>
+      <span class="n">norma 10–15%</span>
+    </div>
+    <div class="cell">
+      <span class="k">Zestawy z błędem</span>
+      <span class="v bad">4 z 8</span>
+      <span class="n">11 409 zł historii</span>
+    </div>
+  </div>
+
+  <section>
+    <p class="eyebrow">Werdykt</p>
+    <hr class="rule">
+    <div class="verdict prose">
+      <p class="lead">
+        <strong>Kampania jest zdrowa od strony aukcji i chora od strony konwersji.</strong>
+        CPM 35,69 zł i CTR 1,85% są w normie dla lokalnego fitnessu w Polsce — Meta bez
+        problemu dostarcza ruch. Problem zaczyna się dokładnie w momencie, w którym
+        ktoś kliknie reklamę.
+      </p>
+      <p>
+        3 598 osób kliknęło w link i otworzyło formularz błyskawiczny. Wypełniło go 110.
+        To <strong>3,06% konwersji</strong> przy normie 10–15% dla poprawnie skonfigurowanego
+        formularza natywnego. Gdyby ten jeden wskaźnik był na dolnej granicy normy, te same
+        14 283 zł dałyby ~360 leadów po <strong>39,68 zł</strong>. Cel 30–40 zł nie wymaga
+        więc lepszego targetowania ani tańszych kliknięć — wymaga naprawy końcówki lejka.
+      </p>
+      <p>
+        Równolegle działa druga, twardsza awaria: cztery zestawy zostały ustawione na cel
+        optymalizacji <code>QUALITY_LEAD</code> („Konwersje leadowe"), który wymaga podpiętego
+        CRM przez Conversions API. Konto ma <strong>zero zbiorów danych</strong>. Meta nie potrafi
+        rozwiązać takiego celu i zwraca <code>Invalid Optimization Goal</code> — stąd czerwone
+        „Błąd wyświetlania" na Twoich zrzutach.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Diagnoza — 7 problemów w kolejności kosztu</p>
+    <hr class="rule">
+    <h2>Co dokładnie jest zepsute</h2>
+
+    <article class="finding crit">
+      <div class="finding-head">
+        <span class="idx">01</span>
+        <span class="sev-tag">Krytyczne · potwierdzone</span>
+        <h4>„Błąd wyświetlania" = nieprawidłowy cel optymalizacji <code>QUALITY_LEAD</code></h4>
+      </div>
+      <span class="cost">4 zestawy · 11 408,85 zł historii · 0 zł dziennego dostarczania</span>
+      <p>
+        API zwraca dla czterech zestawów dokładnie ten komunikat:
+        <code>Invalid Optimization Goal: The specified optimization goal is not valid.</code>
+        Korelacja jest bezwyjątkowa i to ona daje pewność diagnozy:
+      </p>
+      <ul>
+        <li>Wszystkie <strong>4 zestawy z celem <code>QUALITY_LEAD</code></strong> → status <code>WITH_ISSUES</code>, dostarczanie <code>error</code>.</li>
+        <li>Wszystkie <strong>3 zestawy z celem <code>LEAD_GENERATION</code></strong> → dostarczają bez zarzutu.</li>
+      </ul>
+      <p>
+        <code>QUALITY_LEAD</code> to w polskim interfejsie „Konwersje leadowe". Meta wymaga
+        do niego podpiętego CRM przez <em>Conversions API for CRM</em>, żeby wiedzieć,
+        który lead był wartościowy. Sprawdziłem konto: <strong>lista zbiorów danych jest
+        pusta</strong> — nie ma piksela, nie ma CAPI, nie ma integracji CRM. Cel jest więc
+        nierozwiązywalny i Meta zatrzymuje wyświetlanie.
+      </p>
+      <p>
+        To dlatego reklamy „Przewaga młodego sportowca" i „opty 1 | graf. 2 | 12.07 | A | lbn-dz"
+        świecą na czerwono mimo że są włączone — dziedziczą <code>ad_set_with_issues</code> po zestawie.
+        Sama reklama jest sprawna. Ironia: „opty 1 | graf. 2 | lbn-dz" ma <strong>CPL 61,30 zł</strong>,
+        czyli najlepszy wynik przy sensownym wolumenie w całej kampanii — i stoi zablokowana.
+      </p>
+      <div class="fix">
+        <p class="eyebrow">Naprawa — 4 minuty, skutek natychmiastowy</p>
+        <div class="path">Zestaw → Edytuj → Cel wydajności → zmień „Konwersje leadowe" na <strong>„Liczba potencjalnych klientów"</strong> → Opublikuj</div>
+        <p>
+          Zrób to dla: <strong>Lublin dzieci</strong>, <strong>Lublin dorośli</strong>,
+          <strong>Olsztyn dorośli</strong>, <strong>Rzeszów dorośli</strong>. Po publikacji status
+          zmieni się z <code>WITH_ISSUES</code> na aktywny w ciągu kilkunastu minut.
+        </p>
+        <p>
+          Do „Konwersji leadowych" wrócisz dopiero wtedy, gdy klient podepnie CRM przez CAPI
+          i uzbiera historię zakwalifikowanych leadów. Wcześniej ten cel będzie się psuł
+          za każdym razem.
+        </p>
+      </div>
+    </article>
+
+    <article class="finding crit">
+      <div class="finding-head">
+        <span class="idx">02</span>
+        <span class="sev-tag">Krytyczne · największy koszt</span>
+        <h4>Formularz odrzuca 97% osób, które go otworzyły</h4>
+      </div>
+      <span class="cost">Strata modelowa: ~250 leadów · ~90 zł nadpłaty na każdym leadzie</span>
+      <p>
+        To jest prawdziwy powód CPL 130 zł i nikt tego nie zobaczy w domyślnym widoku Ads Managera,
+        bo Meta nie pokazuje tam współczynnika wypełnienia formularza. Trzeba go policzyć:
+      </p>
+      <div class="scroll">
+        <table>
+          <caption>Lejek kampanii, 01.07 – 02.08.2026</caption>
+          <thead>
+            <tr><th>Etap</th><th class="num">Wolumen</th><th class="num">Przejście</th><th>Ocena</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>Wyświetlenia</th><td class="num">400 193</td><td class="num">—</td><td>—</td></tr>
+            <tr><th>Zasięg</th><td class="num">85 209</td><td class="num">częstotl. 4,70</td><td class="fig-bad">za wysoka</td></tr>
+            <tr><th>Kliknięcia (wszystkie)</th><td class="num">7 420</td><td class="num">CTR 1,85%</td><td class="fig-good">w normie</td></tr>
+            <tr><th>Kliknięcia linku</th><td class="num">3 598</td><td class="num">0,90%</td><td class="fig-good">w normie</td></tr>
+            <tr class="total"><th>Wypełnione formularze</th><td class="num">110</td><td class="num fig-bad">3,06%</td><td class="fig-bad">3–5× poniżej normy</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Znalazłem konkretną przyczynę w treściach reklam. <strong>Każda kreacja kończy się
+        wezwaniem „Kliknij <em>Zostaw kontakt</em>"</strong> — a rzeczywisty przycisk pod reklamą
+        to <code>LEARN_MORE</code> („Dowiedz się więcej") albo <code>SEE_DETAILS</code>
+        („Zobacz szczegóły"). Sprawdziłem osiem najdroższych kreacji: <strong>ani jedna</strong>
+        nie ma przycisku, o którym mówi jej własny tekst.
+      </p>
+      <p>
+        Skutek jest podręcznikowy. „Dowiedz się więcej" obiecuje informację, a nie zobowiązanie —
+        więc ludzie klikają chętnie (stąd zdrowy CTR), po czym zamiast artykułu dostają formularz
+        z prośbą o numer telefonu. Rozbieżność między obietnicą a ekranem to najczystszy możliwy
+        zabójca konwersji.
+      </p>
+      <div class="fix">
+        <p class="eyebrow">Naprawa — trzy poprawki, każda działa osobno</p>
+        <ul>
+          <li>
+            <strong>Zmień przycisk na zgodny z tekstem.</strong> Poziom reklamy → „Wezwanie do działania"
+            → <strong>Zarejestruj się</strong> (<code>SIGN_UP</code>) lub <strong>Uzyskaj ofertę</strong>
+            (<code>GET_QUOTE</code>). Alternatywnie odwrotnie: zostaw „Dowiedz się więcej" i przepisz
+            końcówkę copy na „Kliknij <em>Dowiedz się więcej</em> i umów trening diagnostyczny".
+            Ważne, żeby tekst i przycisk mówiły to samo słowo.
+          </li>
+          <li>
+            <strong>Przełącz formularz na typ „Większa liczba potencjalnych klientów"</strong>
+            (<em>More volume</em>) zamiast „Większe zamiary". Wersja „Większe zamiary" dokłada ekran
+            potwierdzenia, który przy tak niskiej konwersji tylko dobija wynik.
+          </li>
+          <li>
+            <strong>Skróć formularz do trzech pól:</strong> imię, telefon, miasto. Każde dodatkowe
+            pytanie otwarte (a zwłaszcza pytania kwalifikujące wpisywane ręcznie) kosztuje kilkanaście
+            procent wypełnień. E-mail wytnij — do umówienia treningu wystarczy telefon.
+          </li>
+          <li>
+            <strong>Dodaj ekran powitalny</strong> z jednym zdaniem konkretu: co dokładnie dostaje
+            osoba zostawiająca kontakt („bezpłatny trening diagnostyczny, 50 minut, ul. X"),
+            oraz kiedy zadzwonicie. To podnosi wypełnienia i jakość jednocześnie.
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="finding crit">
+      <div class="finding-head">
+        <span class="idx">03</span>
+        <span class="sev-tag">Krytyczne · 33% budżetu</span>
+        <h4>Jedna trzecia budżetu poszła do osób 55+, mimo targetowania 30–50 lat</h4>
+      </div>
+      <span class="cost">4 739,38 zł wydane poza zadeklarowanym przedziałem wieku</span>
+      <p>
+        Wszystkie zestawy mają ustawione <code>age_min: 30</code>, <code>age_max: 50</code>.
+        Rzeczywiste dostarczanie wygląda tak:
+      </p>
+      <div class="scroll">
+        <table>
+          <caption>Rozkład wydatków według wieku</caption>
+          <thead>
+            <tr><th>Wiek</th><th class="num">Wydatki</th><th class="num">% budżetu</th><th class="num">Leady</th><th class="num">CPL</th><th class="num">CTR</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>25–34</th><td class="num">1 230,09 zł</td><td class="num">8,6%</td><td class="num">10</td><td class="num">123,01 zł</td><td class="num">1,33%</td></tr>
+            <tr><th>35–44</th><td class="num">4 152,12 zł</td><td class="num">29,1%</td><td class="num">26</td><td class="num fig-bad">159,70 zł</td><td class="num">1,51%</td></tr>
+            <tr><th>45–54</th><td class="num">4 162,03 zł</td><td class="num">29,1%</td><td class="num">33</td><td class="num">126,12 zł</td><td class="num">1,72%</td></tr>
+            <tr><th>55–64</th><td class="num">2 208,00 zł</td><td class="num fig-bad">15,5%</td><td class="num">20</td><td class="num">110,40 zł</td><td class="num">2,22%</td></tr>
+            <tr><th>65+</th><td class="num">2 531,38 zł</td><td class="num fig-bad">17,7%</td><td class="num">21</td><td class="num">120,54 zł</td><td class="num fig-bad">3,51%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Sprawcą jest <code>targeting_optimization: expansion_all</code> — czyli włączone
+        rozszerzanie odbiorców (Advantage). Meta traktuje Twój przedział 30–50 jako sugestię,
+        nie granicę, i szuka „podobnych" konwersji tam, gdzie kliknięcia są najtańsze.
+      </p>
+      <p>
+        Zwróć uwagę na sygnaturę grupy 65+: <strong>CTR 3,51%</strong> — najwyższy w całej kampanii —
+        przy CPL 120,54 zł. Wysoka klikalność i słaba konwersja to klasyczny podpis kliknięć
+        przypadkowych lub niskointencyjnych. Dla oferty „przygotowanie motoryczne dla dzieci"
+        i „powrót do formy 30–50 lat" te leady są niemal na pewno nietrafione, a klient odbiera
+        je jako „słaba jakość".
+      </p>
+      <div class="fix">
+        <p class="eyebrow">Naprawa</p>
+        <div class="path">Zestaw → Odbiorcy → wyłącz <strong>Advantage+ odbiorcy</strong> / „Rozszerzanie szczegółowego targetowania"</div>
+        <p>
+          Ustaw twarde 30–50 dla zestawów „dorośli" i <strong>30–45</strong> dla zestawów „dzieci"
+          (to rodzice 8–14-latków — 55+ w tej roli praktycznie nie występuje). Sam ten ruch
+          uwalnia ~4 700 zł budżetu na 32 dni i kieruje go do osób, które faktycznie kupują.
+        </p>
+      </div>
+    </article>
+
+    <article class="finding high">
+      <div class="finding-head">
+        <span class="idx">04</span>
+        <span class="sev-tag">Wysokie · 23% budżetu</span>
+        <h4>3 299 zł spalone na 28 reklamach z zerową liczbą leadów</h4>
+      </div>
+      <span class="cost">3 299,48 zł · 28 reklam · 0 leadów</span>
+      <p>
+        W kampanii działa około 58 reklam rozrzuconych po 8 zestawach. Wiele z nich nigdy nie miało
+        szansy — przy budżecie 35 zł dziennie na zestaw z 11 reklamami każda kreacja dostaje
+        ~3 zł dziennie, czyli za mało, by Meta zdążyła ją ocenić, zanim wyda pieniądze.
+      </p>
+      <div class="scroll">
+        <table>
+          <caption>Największe pojedyncze straty — reklamy z zerem leadów</caption>
+          <thead>
+            <tr><th>Reklama</th><th class="num">Wydatki</th><th class="num">Leady</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>„1" (Rzeszów dorośli)</th><td class="num">451,11 zł</td><td class="num fig-bad">0</td></tr>
+            <tr><th>Poranna sztywność pleców</th><td class="num">304,02 zł</td><td class="num fig-bad">0</td></tr>
+            <tr><th>opty 1 | graf. 1 | rz-dor</th><td class="num">298,13 zł</td><td class="num fig-bad">0</td></tr>
+            <tr><th>opty 1 | graf. 4 | lbn-dz</th><td class="num">233,12 zł</td><td class="num fig-bad">0</td></tr>
+            <tr><th>Opinia podopiecznego (Marek, 44 lata)</th><td class="num">220,37 zł</td><td class="num fig-bad">0</td></tr>
+            <tr><th>3 specjalistów. 1 plan. 0 zgadywania</th><td class="num">191,17 zł</td><td class="num fig-bad">0</td></tr>
+            <tr><th>opty 1 | graf. 5 | lbn-dz</th><td class="num">144,12 zł</td><td class="num fig-bad">0</td></tr>
+            <tr><th>opty 1 | graf. 4 | rz-dz</th><td class="num">142,37 zł</td><td class="num fig-bad">0</td></tr>
+            <tr class="total"><th>Razem 28 reklam</th><td class="num">3 299,48 zł</td><td class="num">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Po drugiej stronie leżą kreacje, które dowiozły i zostały wyłączone albo zagłodzone:
+        <strong>„opty 1 | graf. 5 | olsz-dor – kopia" — CPL 43,30 zł</strong> przy CTR 2,29%,
+        <strong>„opty 1 | graf. 2 | lbn-dz" — CPL 61,30 zł</strong>, <strong>„Przewaga młodego
+        sportowca" — CPL 62,38 zł</strong>. Te trzy reklamy już dziś trafiają w cel 30–60 zł.
+        Materiał do zejścia z CPL istnieje — tylko dostaje ułamek budżetu.
+      </p>
+      <div class="fix">
+        <p class="eyebrow">Naprawa</p>
+        <p>
+          Wyłącz wszystko, co wydało powyżej 150 zł bez ani jednego leada — bez sentymentu,
+          nie „poczekamy jeszcze". Zostaw maksymalnie <strong>3–4 reklamy na zestaw</strong>.
+          Zbuduj nowy zestaw wokół trzech zwycięzców wymienionych wyżej.
+        </p>
+      </div>
+    </article>
+
+    <article class="finding high">
+      <div class="finding-head">
+        <span class="idx">05</span>
+        <span class="sev-tag">Wysokie · strukturalne</span>
+        <h4>Osiem zestawów po 35 zł dziennie — żaden nie wyjdzie z fazy uczenia</h4>
+      </div>
+      <span class="cost">Wymagane 50 konwersji / 7 dni na zestaw · realnie osiągane ~2</span>
+      <p>
+        Meta wychodzi z fazy uczenia po <strong>50 zdarzeniach optymalizacji w 7 dni na zestaw</strong>.
+        Przy 35 zł dziennie i CPL 130 zł zestaw generuje 245 zł tygodniowo, czyli <strong>1,9 leada</strong>.
+        To 26 razy za mało. Nawet po zejściu do docelowego CPL 40 zł byłoby to 6 leadów — wciąż 8× za mało.
+      </p>
+      <p>
+        Dlatego na zrzutach widzisz „Ograniczone uczenie" i „Uczenie się" jednocześnie: te zestawy
+        nigdy nie opuszczą fazy nauki, a w niej Meta licytuje ostrożnie i drogo. Fragmentacja budżetu
+        na 8 równoległych zestawów jest więc <em>samodzielną</em> przyczyną wysokiego CPL, niezależną
+        od kreacji i targetowania.
+      </p>
+      <p>
+        Arytmetyka progu: żeby wyjść z uczenia przy CPL 40 zł, zestaw potrzebuje
+        <strong>50 × 40 zł = 2 000 zł tygodniowo</strong>, czyli ~286 zł dziennie. Przy budżecie
+        rzędu 400 zł dziennie konto utrzyma <strong>jeden, maksymalnie dwa</strong> zestawy — nie osiem.
+      </p>
+      <div class="fix">
+        <p class="eyebrow">Naprawa</p>
+        <p>
+          Konsolidacja: <strong>1 kampania z budżetem na poziomie kampanii (CBO/Advantage)</strong>,
+          <strong>2 zestawy</strong> — „Dorośli" i „Dzieci". Wszystkie cztery miasta (Lublin, Rzeszów,
+          Olsztyn, Mińsk Mazowiecki) wrzuć jako listę lokalizacji <em>wewnątrz</em> jednego zestawu.
+          Miasta nie potrzebują osobnych zestawów, dopóki nie mają osobnego przekazu — a nie mają.
+        </p>
+      </div>
+    </article>
+
+    <article class="finding med">
+      <div class="finding-head">
+        <span class="idx">06</span>
+        <span class="sev-tag">Średnie · zużycie odbiorców</span>
+        <h4>Częstotliwość 4,70 — w Lublinie 6,21. Grupy są wypalone</h4>
+      </div>
+      <span class="cost">85 209 osób obejrzało reklamy 400 193 razy</span>
+      <p>
+        Przeciętny odbiorca zobaczył reklamę prawie pięć razy w miesiąc, a w zestawie
+        „Lublin dzieci" ponad sześć. To jest granica, za którą CPM rośnie, a reakcja spada —
+        i widać to w danych: zestaw „Mińsk dorośli – kopia" ma w ostatnich 7 dniach
+        <strong>CPM 74,68 zł</strong>, ponad dwa razy powyżej średniej kampanii.
+      </p>
+      <p>
+        Przyczyna jest strukturalna: pojedyncze miasto plus wąski przedział wieku to grupa rzędu
+        kilkunastu tysięcy osób. Mińsk Mazowiecki ma ok. 40 tys. mieszkańców — realna pula
+        30–50 lat to może 12–15 tys. Przy 35 zł dziennie wyczerpujesz ją w kilka dni i płacisz
+        za pokazywanie tej samej reklamy tym samym ludziom.
+      </p>
+      <div class="fix">
+        <p class="eyebrow">Naprawa</p>
+        <p>
+          Rozwiązuje to konsolidacja z punktu 05: cztery miasta w jednym zestawie dają pulę
+          4–5× większą i zbijają częstotliwość do 1,5–2,0 przy tym samym budżecie. Dodatkowo
+          ustaw promień <strong>+15–25 km</strong> wokół każdego miasta zamiast samej granicy
+          administracyjnej — dojazd 20 minut na trening to norma.
+        </p>
+      </div>
+    </article>
+
+    <article class="finding med">
+      <div class="finding-head">
+        <span class="idx">07</span>
+        <span class="sev-tag">Średnie · alokacja</span>
+        <h4>Facebook Reels: 2 536 zł przy najgorszym CPL w kampanii</h4>
+      </div>
+      <span class="cost">2 708 zł w umiejscowieniach o najsłabszym zwrocie</span>
+      <div class="scroll">
+        <table>
+          <caption>Wyniki według umiejscowienia</caption>
+          <thead>
+            <tr><th>Umiejscowienie</th><th class="num">Wydatki</th><th class="num">Leady</th><th class="num">CPL</th><th class="num">CPM</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>Feed (FB + IG)</th><td class="num">10 067,35 zł</td><td class="num">77</td><td class="num">130,74 zł</td><td class="num">31,70 zł</td></tr>
+            <tr><th>Facebook Reels</th><td class="num">2 536,04 zł</td><td class="num">18</td><td class="num fig-bad">140,89 zł</td><td class="num">45,75 zł</td></tr>
+            <tr><th>Facebook Stories</th><td class="num">953,40 zł</td><td class="num">9</td><td class="num">105,93 zł</td><td class="num fig-bad">80,37 zł</td></tr>
+            <tr><th>Instagram Reels</th><td class="num">296,54 zł</td><td class="num">3</td><td class="num fig-good">98,85 zł</td><td class="num">77,43 zł</td></tr>
+            <tr><th>Instagram Stories</th><td class="num">257,90 zł</td><td class="num">3</td><td class="num fig-good">85,97 zł</td><td class="num">49,67 zł</td></tr>
+            <tr><th>Profile feed, in-stream, Marketplace, Search</th><td class="num">172,42 zł</td><td class="num fig-bad">0</td><td class="num">—</td><td class="num">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Facebook Reels pochłonął 17,8% budżetu i dowiózł najdroższe leady w całej kampanii.
+        Powód jest prozaiczny: <strong>wszystkie topowe kreacje to grafiki statyczne</strong>
+        (<code>image_hash</code>, format 1:1 lub 4:5), a Reels to środowisko pionowego wideo.
+        Statyczny obraz w Reels ma znikomą retencję i Meta musi przepłacać za zasięg.
+      </p>
+      <p>
+        Warto też zauważyć asymetrię platform: Facebook 12 898 zł → CPL 132,97 zł,
+        Instagram 1 385 zł → <strong>CPL 106,57 zł</strong>. Instagram jest tańszy i dostaje
+        niecałe 10% budżetu.
+      </p>
+      <div class="fix">
+        <p class="eyebrow">Naprawa</p>
+        <p>
+          Wyłącz ręcznie: <strong>Facebook Reels</strong>, <strong>Audience Network</strong>,
+          <strong>Marketplace</strong>, <strong>in-stream video</strong>, <strong>Search</strong>,
+          <strong>profile feed</strong>. Zostaw Feed + Stories + Instagram Reels. Do Reels wróć
+          dopiero z materiałem pionowym 9:16 — wtedy jako osobny zestaw, żeby nie mieszać
+          wyników z feedem.
+        </p>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <p class="eyebrow">Stan zestawów</p>
+    <hr class="rule">
+    <h2>Pełny obraz konta</h2>
+    <div class="scroll">
+      <table>
+        <caption>8 zestawów, 01.07 – 02.08.2026</caption>
+        <thead>
+          <tr>
+            <th>Zestaw</th><th>Cel optymalizacji</th><th>Stan</th>
+            <th class="num">Wydatki</th><th class="num">Leady</th><th class="num">CPL</th>
+            <th class="num">CTR</th><th class="num">CPM</th><th class="num">Częstotl.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Lublin dorośli</th><td><code>QUALITY_LEAD</code></td><td><span class="pill err">Błąd</span></td>
+            <td class="num">2 857,48 zł</td><td class="num">27</td><td class="num">105,83 zł</td>
+            <td class="num">2,35%</td><td class="num">47,31 zł</td><td class="num">3,49</td>
+          </tr>
+          <tr>
+            <th>Olsztyn dorośli</th><td><code>QUALITY_LEAD</code></td><td><span class="pill err">Błąd</span></td>
+            <td class="num">2 856,01 zł</td><td class="num">25</td><td class="num">114,24 zł</td>
+            <td class="num">2,07%</td><td class="num">42,47 zł</td><td class="num">4,39</td>
+          </tr>
+          <tr>
+            <th>Lublin dzieci</th><td><code>QUALITY_LEAD</code></td><td><span class="pill err">Błąd</span></td>
+            <td class="num">2 854,91 zł</td><td class="num">25</td><td class="num">114,20 zł</td>
+            <td class="num">1,67%</td><td class="num">24,16 zł</td><td class="num fig-bad">6,21</td>
+          </tr>
+          <tr>
+            <th>Rzeszów dorośli</th><td><code>QUALITY_LEAD</code></td><td><span class="pill err">Błąd</span></td>
+            <td class="num">2 840,45 zł</td><td class="num">13</td><td class="num fig-bad">218,50 zł</td>
+            <td class="num">1,85%</td><td class="num">41,22 zł</td><td class="num">3,37</td>
+          </tr>
+          <tr>
+            <th>Rzeszów dzieci</th><td><code>LEAD_GENERATION</code></td><td><span class="pill live">Uczy się</span></td>
+            <td class="num">2 167,15 zł</td><td class="num">19</td><td class="num">114,06 zł</td>
+            <td class="num">1,63%</td><td class="num">29,25 zł</td><td class="num">4,68</td>
+          </tr>
+          <tr>
+            <th>Mińsk dorośli – kopia</th><td><code>LEAD_GENERATION</code></td><td><span class="pill live">Uczy się</span></td>
+            <td class="num">~604,75 zł</td><td class="num fig-bad">0</td><td class="num">—</td>
+            <td class="num">1,56%</td><td class="num fig-bad">74,68 zł</td><td class="num">3,10</td>
+          </tr>
+          <tr>
+            <th>Mińsk dorośli</th><td><code>QUALITY_LEAD</code></td><td><span class="pill off">Pauza</span></td>
+            <td class="num">67,80 zł</td><td class="num">1</td><td class="num">67,80 zł</td>
+            <td class="num">1,02%</td><td class="num">26,67 zł</td><td class="num">1,59</td>
+          </tr>
+          <tr>
+            <th>Lublin dzieci – kopia</th><td><code>LEAD_GENERATION</code></td><td><span class="pill off">Pauza</span></td>
+            <td class="num">0,00 zł</td><td class="num">0</td><td class="num">—</td>
+            <td class="num">—</td><td class="num">—</td><td class="num">—</td>
+          </tr>
+          <tr class="total">
+            <th>Kampania</th><td>—</td><td>—</td>
+            <td class="num">14 282,80 zł</td><td class="num">110</td><td class="num">129,84 zł</td>
+            <td class="num">1,85%</td><td class="num">35,69 zł</td><td class="num">4,70</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose" style="font-size:0.85rem;color:var(--ink-soft);">
+      Uwaga metodologiczna: dla zestawu „Mińsk dorośli – kopia" API zwraca w widoku
+      <em>maximum</em> wartość 6,39 zł, sprzeczną z 491,94 zł za ostatnie 7 dni. W tabeli podaję
+      sumę z poziomu reklam (604,75 zł), która jest spójna z pozostałymi widokami.
+    </p>
+  </section>
+
+  <section>
+    <p class="eyebrow">System naprawczy — kolejność ma znaczenie</p>
+    <hr class="rule">
+    <h2>Co zrobić, krok po kroku</h2>
+    <p class="prose">
+      Kroki są ułożone w kolejności wykonania, nie ważności. Nie przestawiaj ich: zwiększanie
+      budżetu przed naprawą formularza to szybsze palenie pieniędzy, a nie skalowanie.
+      Zaznaczaj wykonane.
+    </p>
+
+    <div class="callout">
+      <p class="eyebrow">Zanim ruszysz</p>
+      <p>
+        Każda zmiana w zestawie resetuje fazę uczenia. Dlatego kroki 1–4 wykonaj
+        <strong>za jednym razem, w jednej sesji</strong> — jeden reset zamiast czterech.
+        Potem nie dotykaj kampanii przez pełne 72 godziny, nawet jeśli pierwszego dnia
+        wyniki będą wyglądały źle. Ocenę robisz w dniu czwartym.
+      </p>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="s1" aria-labelledby="s1t">
+      <div class="step-body">
+        <p class="step-title" id="s1t">Odblokuj cztery zestawy z błędem wyświetlania</p>
+        <p class="step-when">Dzień 0 · 4 minuty · usuwa czerwony status</p>
+        <p>
+          W zestawach <strong>Lublin dzieci</strong>, <strong>Lublin dorośli</strong>,
+          <strong>Olsztyn dorośli</strong>, <strong>Rzeszów dorośli</strong> zmień cel wydajności
+          z „Konwersje leadowe" na <strong>„Liczba potencjalnych klientów"</strong>.
+          To jedyna zmiana, która usuwa <code>Invalid Optimization Goal</code>.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="s2" aria-labelledby="s2t">
+      <div class="step-body">
+        <p class="step-title" id="s2t">Napraw formularz i przycisk CTA</p>
+        <p class="step-when">Dzień 0 · 20 minut · największy pojedynczy zysk</p>
+        <p>
+          Ustaw przycisk na <strong>„Zarejestruj się"</strong> we wszystkich pozostawionych
+          reklamach, żeby zgadzał się z treścią. Zbuduj jeden nowy formularz:
+        </p>
+        <ul>
+          <li>typ <strong>„Większa liczba potencjalnych klientów"</strong>,</li>
+          <li>ekran powitalny z konkretem oferty i terminem kontaktu,</li>
+          <li>pola: <strong>imię, telefon, miasto</strong> — nic więcej,</li>
+          <li>ekran końcowy z przyciskiem telefonu do klienta.</li>
+        </ul>
+        <p>Podepnij ten sam formularz pod wszystkie reklamy — jeden formularz, jedno źródło danych.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="s3" aria-labelledby="s3t">
+      <div class="step-body">
+        <p class="step-title" id="s3t">Wyłącz rozszerzanie odbiorców i zawęź wiek</p>
+        <p class="step-when">Dzień 0 · 5 minut · odzyskuje ~33% budżetu</p>
+        <p>
+          Wyłącz Advantage+ odbiorców / rozszerzanie szczegółowego targetowania.
+          Wiek: <strong>30–50</strong> dla dorosłych, <strong>30–45</strong> dla dzieci.
+          Lokalizacje: miasto <strong>+ 15–25 km</strong>, typ „osoby mieszkające w tej lokalizacji".
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="s4" aria-labelledby="s4t">
+      <div class="step-body">
+        <p class="step-title" id="s4t">Wytnij umiejscowienia i przegraj reklamy</p>
+        <p class="step-when">Dzień 0 · 15 minut</p>
+        <p>
+          Umiejscowienia ręczne: zostaw <strong>Feed, Stories, Instagram Reels</strong>.
+          Wyłącz Facebook Reels, Audience Network, Marketplace, in-stream, Search, profile feed.
+        </p>
+        <p>
+          Wyłącz każdą reklamę, która wydała ponad 150 zł bez leada (lista w punkcie 04 diagnozy).
+          Zostaw 3–4 najlepsze na zestaw, z <strong>„opty 1 | graf. 5 | olsz-dor – kopia"</strong>,
+          <strong>„opty 1 | graf. 2 | lbn-dz"</strong> i <strong>„Przewaga młodego sportowca"</strong>
+          jako rdzeniem.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="s5" aria-labelledby="s5t">
+      <div class="step-body">
+        <p class="step-title" id="s5t">Przebuduj strukturę na dwa zestawy z CBO</p>
+        <p class="step-when">Dzień 1 · nowa kampania obok starej</p>
+        <p>
+          Zbuduj nową kampanię „Pozyskiwanie leadów" z <strong>budżetem na poziomie kampanii</strong>:
+        </p>
+        <ul>
+          <li><strong>Zestaw A — Dorośli:</strong> Lublin + Rzeszów + Olsztyn + Mińsk Maz. (każde +20 km), 30–50 lat, obie płcie.</li>
+          <li><strong>Zestaw B — Dzieci:</strong> te same lokalizacje, 30–45 lat, rodzice — przekaz o dziecku.</li>
+        </ul>
+        <p>
+          Budżet startowy <strong>250–300 zł dziennie</strong> na całą kampanię. Stara kampania
+          zostaje włączona równolegle przez 3 dni jako punkt odniesienia, potem ją gasisz.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="s6" aria-labelledby="s6t">
+      <div class="step-body">
+        <p class="step-title" id="s6t">Cisza operacyjna — 72 godziny bez zmian</p>
+        <p class="step-when">Dni 1–4 · najtrudniejszy krok</p>
+        <p>
+          Zero edycji: budżetu, kreacji, targetowania, formularza. Każde dotknięcie restartuje
+          uczenie i unieważnia pomiar. Pierwszego dnia CPL prawie zawsze wygląda gorzej — to normalne.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="s7" aria-labelledby="s7t">
+      <div class="step-body">
+        <p class="step-title" id="s7t">Pomiar w dniu 4 i decyzja o skalowaniu</p>
+        <p class="step-when">Dzień 4 · punkt kontrolny</p>
+        <p>
+          Sprawdź dwie liczby: <strong>konwersję formularza</strong> (leady ÷ kliknięcia linku)
+          i <strong>CPL</strong>.
+        </p>
+        <ul>
+          <li><strong>Konwersja ≥ 8%</strong> → naprawa zadziałała. Podnoś budżet o 20% co 3 dni.</li>
+          <li><strong>Konwersja 4–8%</strong> → formularz nadal hamuje. Skróć go do dwóch pól (imię, telefon) i przetestuj drugi ekran powitalny.</li>
+          <li><strong>Konwersja &lt; 4%</strong> → problem jest w ofercie, nie w ustawieniach. Trzeba dać konkret: cena wejścia, „bezpłatny trening diagnostyczny", termin.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <input type="checkbox" id="s8" aria-labelledby="s8t">
+      <div class="step-body">
+        <p class="step-title" id="s8t">Podepnij CRM przez Conversions API</p>
+        <p class="step-when">Tydzień 2–4 · warunek wejścia na „Konwersje leadowe"</p>
+        <p>
+          Dopiero to odblokuje cel <code>QUALITY_LEAD</code>, który dziś rozwala kampanię.
+          Potrzebny jest przepływ, który odsyła do Meta status leada (odebrał telefon → przyszedł
+          na trening → kupił karnet) razem z 15–17-cyfrowym <em>Lead ID</em>. Meta podaje ~1 miesiąc
+          okresu uczenia i średnio 15% niższy koszt leada jakościowego po jego zakończeniu.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Model docelowy</p>
+    <hr class="rule">
+    <h2>Skąd wziąć CPL 30–40 zł</h2>
+    <p class="prose">
+      Poniższy model pokazuje, że cel jest osiągalny bez zmiany budżetu i bez cudów w aukcji —
+      wyłącznie przez odzyskanie zmarnowanego ruchu i naprawę końcówki lejka. Zakłada te same
+      14 283 zł na 32 dni.
+    </p>
+    <div class="scroll">
+      <table>
+        <caption>Model: ten sam budżet, naprawione ogniwa</caption>
+        <thead>
+          <tr><th>Wskaźnik</th><th class="num">Dziś</th><th class="num">Po naprawie</th><th>Skąd zmiana</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Budżet</th><td class="num">14 283 zł</td><td class="num">14 283 zł</td>
+            <td>bez zmian</td>
+          </tr>
+          <tr>
+            <th>Budżet trafiony w grupę</th><td class="num">9 544 zł</td><td class="num">14 283 zł</td>
+            <td>wyłączone rozszerzanie wieku (krok 3)</td>
+          </tr>
+          <tr>
+            <th>Koszt kliknięcia linku</th><td class="num">3,97 zł</td><td class="num">~3,40 zł</td>
+            <td>bez Reels i śmieciowych umiejscowień (krok 4)</td>
+          </tr>
+          <tr>
+            <th>Kliknięcia linku</th><td class="num">3 598</td><td class="num">~4 200</td>
+            <td>tańszy ruch, niższa częstotliwość</td>
+          </tr>
+          <tr>
+            <th>Konwersja formularza</th><td class="num fig-bad">3,06%</td><td class="num fig-good">10–12%</td>
+            <td>zgodny CTA + krótki formularz (krok 2)</td>
+          </tr>
+          <tr class="total">
+            <th>Leady</th><td class="num">110</td><td class="num">420–500</td><td>—</td>
+          </tr>
+          <tr class="total">
+            <th>Koszt leada</th><td class="num fig-bad">129,84 zł</td><td class="num fig-good">29–34 zł</td>
+            <td>cel osiągnięty</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <p class="eyebrow">Uczciwe rozgraniczenie</p>
+      <p>
+        <strong>Punkt 01 jest pewny.</strong> Przyczyna „Błędu wyświetlania" została potwierdzona
+        trzema niezależnymi dowodami: komunikatem API, bezwyjątkową korelacją 4/4 kontra 0/3
+        między celem a statusem, oraz pustą listą zbiorów danych na koncie. Zmiana celu
+        na „Liczba potencjalnych klientów" usunie ten błąd na pewno.
+      </p>
+      <p>
+        <strong>Model CPL to prognoza, nie gwarancja.</strong> Opiera się na rynkowym benchmarku
+        konwersji formularza 10–15% i na Twoich rzeczywistych kosztach kliknięcia. Jeśli oferta
+        FitRevolution jest słabsza od konkurencyjnej w tych miastach, konwersja może zatrzymać się
+        na 6–8% i CPL wyląduje w okolicach 50–60 zł. Punkt kontrolny z kroku 7 służy właśnie
+        do rozstrzygnięcia tego pytania na danych, a nie na przypuszczeniach.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      Audyt wykonany 2 sierpnia 2026 na danych z Meta Marketing API — poziom kampanii, zestawów,
+      reklam i kreacji, z podziałami według wieku, płci, platformy i umiejscowienia.
+      Kwoty w PLN, atrybucja 1 dzień wyświetlenie / 7 dni kliknięcie.
+    </p>
+    <p>
+      Benchmarki zewnętrzne:
+      <a href="https://www.facebook.com/business/help/782657799338685">Meta — cele wydajności dla reklam kontaktowych</a> ·
+      <a href="https://developers.facebook.com/documentation/ads-commerce/conversions-api/conversion-leads-integration">Meta for Developers — Conversions API for CRM</a> ·
+      <a href="https://adlibrary.com/posts/meta-ads-for-lead-generation">Meta Ads for Lead Generation 2026 — konwersja formularza 10–15%</a> ·
+      <a href="https://www.jonloomer.com/qvt/conversion-leads-crm-ingegration/">Jon Loomer — Conversion Leads CRM integration</a>
+    </p>
+    <p>KWIATEKmedia · Paweł Kwiatek</p>
+  </footer>
+
+</div>
