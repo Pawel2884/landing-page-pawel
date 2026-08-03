@@ -1,0 +1,38 @@
+data_godzina_Europe_Warsaw;poziom;id_elementu;nazwa;zmieniony_parametr;wartosc_przed;wartosc_po;typ_autora;mozliwy_wplyw
+2026-05-27 15:37;Kampania;120250261422190581;LeadGen 27.05;Utworzenie kampanii;-;OUTCOME_LEADS / AUCTION;Czlowiek (Pawel Kwiatek, Power Editor);Start kampanii
+2026-05-27 15:37;Zestaw;120250261422330581;Cala polska;Utworzenie zestawu + budzet dzienny;-;100,00 zl/dzien;Czlowiek (Power Editor);Start
+2026-05-27 15:37;Zestaw;120250261422330581;Cala polska;Zdarzenie optymalizacyjne;-;Conversion leads (QUALITY_LEAD);Czlowiek (Power Editor);KLUCZOWE: optymalizacja na leady konwersyjne, nie na leady formularzowe
+2026-05-27 15:37;Zestaw;120250261422330581;Cala polska;Strategia licytacji;-;Automatically bid for actions (Highest volume);Czlowiek (Power Editor);-
+2026-05-27 15:37;Zestaw;120250261422330581;Cala polska;Targetowanie;-;PL / wiek 35-65+ (min 25) / jezyk polski / wykluczenie '26.05 WYKLUCZENIE' / Advantage+ audience ON / placementy automatyczne;Czlowiek (Power Editor);-
+2026-05-27 15:37;Reklama;x5;5 reklam startowych;Utworzenie reklam;-;Grafika 966 leadow, Grafika 4,18zl, Grafika zdjecie kartki, Grafika 46 leadow, Wideo 41 leadow;Czlowiek (Power Editor);-
+2026-05-29 16:43;Reklama;120250419453900581;Wideo google sheets;Dodanie reklamy;-;nowa reklama wideo;Czlowiek (Power Editor);-
+2026-05-29 19:41;Zestaw;120250261422330581;Cala polska;Budzet dzienny;100,00 zl;110,00 zl;Czlowiek (Ads Manager App Android);+10%
+2026-05-31 12:03;Reklama;120250540270620581;Zajebiste wideo;Dodanie reklamy;-;nowa reklama wideo;Czlowiek (Power Editor);-
+2026-06-05 14:17;Reklama;x3;KREDYTY 1/2/3;Dodanie reklam;-;3 nowe kreacje branzowe (kredyty);Czlowiek (Power Editor);Zmiana kata komunikacji na branzowy
+2026-06-05 14:54;Reklama;120250997578340581 / 120250997888430581 / 120250997888440581;KREDYTY 1/2/3;Podmiana kreacji;stare creative_id;nowe creative_id;Czlowiek (Power Editor);Reset historii posta
+2026-06-09 11:10;Zestaw;120250261422330581;Cala polska;Status;Active;Inactive;Czlowiek (Power Editor);Przerwa 1 minuta - bez wplywu
+2026-06-09 11:11;Zestaw;120250261422330581;Cala polska;Status;Inactive;Active;Czlowiek (Power Editor);-
+2026-06-09 15:39;Reklama;x4;1-4 Kredyty NOWE 09.06;Dodanie reklam;-;4 nowe kreacje;Czlowiek (Power Editor);-
+2026-06-09 15:40;Zestaw;120250261422330581;Cala polska;Budzet dzienny;110,00 zl;120,00 zl;Czlowiek (Power Editor);+9%
+2026-06-12 20:26;Zestaw;120250261422330581;Cala polska;Budzet dzienny;120,00 zl;140,00 zl;Czlowiek (Power Editor);+17%
+2026-06-20 10:42;Zestaw;120250261422330581;Cala polska;Targetowanie;wiek 35-65+ (min 25), bez plci, Advantage+ audience ON;wiek 35-60, plec MEZCZYZNI, Advantage+ audience OFF, Advantage+ detailed targeting ON;Czlowiek (Power Editor);ISTOTNE: zawezenie grupy + wylaczenie Advantage+ Audience
+2026-06-20 10:42;Reklama;x3;OZE kreacja / 22 zl za leada / Kredyty grafika;Dodanie reklam;-;3 nowe kreacje;Czlowiek (Power Editor);-
+2026-06-22 12:29;Reklama;120250264318640581 i 5 innych;Grafika 966 leadow itd.;Podmiana kreacji;stare creative_id;nowe creative_id;Czlowiek (Power Editor);Reset historii posta na 6 reklamach
+2026-06-23 13:46;Reklama;x3;Grafika 966 leadow 2/3/4;Dodanie reklam;-;3 warianty tej samej kreacji;Czlowiek (Power Editor);Duplikaty konceptu
+2026-06-24 12:30;KAMPANIA;120250261422190581;LeadGen 27.05;STATUS;Active;Inactive;Czlowiek (Power Editor);*** WYLACZENIE KAMPANII ***
+2026-06-24 16:16;Zestaw;120250261422330581;Cala polska;Status;Active;Inactive;Czlowiek (Power Editor);Domkniecie wylaczenia
+2026-06-25..2026-07-27;-;-;-;PRZERWA W EMISJI;-;-;-;"33 dni bez emisji tej kampanii; na koncie dzialaly inne kampanie leadowe"
+2026-07-28 17:42;KAMPANIA;120250261422190581;LeadGen 27.05;STATUS;Inactive;Active;Czlowiek (Power Editor);*** PONOWNE URUCHOMIENIE ***
+2026-07-28 17:48;Zestaw;120250261422330581;Cala polska;Budzet dzienny;140,00 zl;200,00 zl;Czlowiek (Power Editor);ISTOTNE: +43% budzetu w dniu restartu
+2026-07-28 17:48;Zestaw;120250261422330581;Cala polska;Targetowanie;wykluczenie '26.05 WYKLUCZENIE', Advantage+ audience OFF;wykluczenie '24.07 Wyklucza form' (29 zrodel lead), min wiek 18, Advantage+ audience ON;Czlowiek (Power Editor);ISTOTNE: podmiana wykluczenia + ponowne wlaczenie Advantage+ Audience
+2026-07-28 17:48;Reklama;9 reklam;wszystkie aktywne;PODMIANA KREACJI;stare creative_id;nowe creative_id (sufiks 2026-07-28);Czlowiek (Power Editor);*** KLUCZOWE: wszystkie kreacje wymienione w dniu restartu - utrata historii posta i social proof ***
+2026-07-28 17:49;Zestaw;120250261422330581;Cala polska;Status;Inactive;Active;Czlowiek (Power Editor);Wznowienie emisji
+2026-07-28 17:49..17:50;Reklama;13 reklam;stare kreacje;Archiwizacja;Active/Paused;ARCHIVED;Czlowiek (Power Editor);Zostawiono 4 reklamy
+2026-07-28 18:10;Reklama;120253607230510581;Dodatkowe Wideo;Dodanie reklamy;-;nowa reklama wideo;Czlowiek (Power Editor);-
+2026-07-30 18:02;Konto;1569482637544365;PawelKwiatek;Status konta;Active;Payment Needed;Meta (system);Przerwa platnicza ~6 min
+2026-07-30 18:08;Konto;1569482637544365;PawelKwiatek;Status konta;Payment Needed;Active;Meta (system);Oplacone 1000,00 zl
+2026-08-02 20:46;Konto;1569482637544365;PawelKwiatek;Status konta;Active;Payment Needed;Meta (system);Przerwa platnicza ~3 min
+2026-08-02 20:49;Konto;1569482637544365;PawelKwiatek;Status konta;Payment Needed;Active;Meta (system);Oplacone 1000,70 zl
+2026-08-03 11:57;Zestaw;120250261422330581;Cala polska;Zdarzenie optymalizacyjne;Conversion leads (QUALITY_LEAD);Leads (LEAD_GENERATION);Czlowiek (Pawel Kwiatek) przez 'ads MCP server';"*** ZMIANA DZISIAJ - resetuje faze uczenia; NIE wykonana w ramach tego audytu ***"
+2026-08-03 11:58;Zestaw;120250261422330581;Cala polska;Targetowanie;wiek 35-60, plec MEZCZYZNI, jezyk polski;wiek 18-65, wszystkie plcie, bez jezyka (Advantage+ audience ON);Czlowiek (Pawel Kwiatek) przez 'ads MCP server';*** ZMIANA DZISIAJ - drugi reset fazy uczenia tego samego dnia ***
+2026-08-03 11:59;Zestaw;120250261422330581;Cala polska;Status;Pending Process;Active;Czlowiek przez 'ads MCP server';Zestaw ponownie aktywny

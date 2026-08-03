@@ -1,0 +1,769 @@
+{
+ "metadane_audytu": {
+  "data_wykonania": "2026-08-03",
+  "godzina_zakonczenia_zbierania_danych_UTC": "2026-08-03T19:45Z",
+  "tryb": "READ-ONLY - nie wprowadzono zadnych zmian na koncie",
+  "zrodlo_danych": "Meta Ads MCP (ads_get_ad_accounts, ads_get_ad_entities, ads_account_get_activity_logs, ads_get_creatives, ads_get_errors)",
+  "waluta": "PLN",
+  "strefa_czasowa_konta": "Europe/Warsaw"
+ },
+ "konto": {
+  "id": "1569482637544365",
+  "nazwa": "PawelKwiatek",
+  "business_id": "591163360686591",
+  "business_name": "Pawel Kwiatek Marketing",
+  "status": "ACTIVE",
+  "ma_metode_platnosci": true,
+  "waluta": "PLN",
+  "strefa_czasowa": "Europe/Warsaw",
+  "min_budzet_dzienny_pln": 3.82,
+  "wydatek_konta_ostatnie_30_dni_pln": 7012.88,
+  "wyswietlenia_konta_30d": 98088,
+  "leady_konta_30d": 17,
+  "cpl_konta_30d_pln": 412.52,
+  "zdarzenia_rozliczeniowe": [
+   {
+    "data": "2026-07-30 18:02",
+    "zdarzenie": "status konta -> Payment Needed"
+   },
+   {
+    "data": "2026-07-30 18:08",
+    "zdarzenie": "status konta -> Active, obciazenie 1000,00 PLN"
+   },
+   {
+    "data": "2026-08-02 20:46",
+    "zdarzenie": "status konta -> Payment Needed"
+   },
+   {
+    "data": "2026-08-02 20:49",
+    "zdarzenie": "status konta -> Active, obciazenie 1000,70 PLN"
+   },
+   {
+    "data": "2026-08-03 06:32",
+    "zdarzenie": "obciazenie 67,66 PLN"
+   }
+  ],
+  "bledy_dostarczania_kampanii_i_zestawu": "brak (ads_get_errors zwrocilo pusty wynik)"
+ },
+ "kampania": {
+  "id": "120250261422190581",
+  "nazwa": "LeadGen 27.05",
+  "cel": "OUTCOME_LEADS",
+  "typ_zakupu": "AUCTION",
+  "kategoria_specjalna": "brak",
+  "miejsce_konwersji": "Formularz blyskawiczny na Meta (Instant Form) - leady raportowane jako onsite_conversion.lead_grouped",
+  "typ_wyniku_raportowany": "Leads (form)",
+  "budzet": "na poziomie ZESTAWU (ABO), nie CBO",
+  "status": "ACTIVE",
+  "status_dostarczania": "active",
+  "utworzona": "2026-05-27T15:37:46+02:00",
+  "ostatnia_edycja": "2026-08-03T11:59:16+02:00",
+  "okno_atrybucji": "1d_view_7d_click"
+ },
+ "zestaw_reklam": {
+  "id": "120250261422330581",
+  "nazwa": "Cala polska",
+  "status": "ACTIVE",
+  "zdarzenie_optymalizacyjne_obecnie": "LEAD_GENERATION (Leads) - zmienione 2026-08-03 11:57",
+  "zdarzenie_optymalizacyjne_wczesniej": "QUALITY_LEAD (Conversion leads) - od 2026-05-27 do 2026-08-03 11:57",
+  "strategia_licytacji": "Highest volume (automatyczna)",
+  "cost_cap_bid_cap": "brak",
+  "budzet_dzienny_pln_obecnie": 200.0,
+  "historia_budzetu_pln": [
+   {
+    "od": "2026-05-27",
+    "kwota": 100.0
+   },
+   {
+    "od": "2026-05-29",
+    "kwota": 110.0
+   },
+   {
+    "od": "2026-06-09",
+    "kwota": 120.0
+   },
+   {
+    "od": "2026-06-12",
+    "kwota": 140.0
+   },
+   {
+    "od": "2026-07-28",
+    "kwota": 200.0
+   }
+  ],
+  "okno_atrybucji": "1d_view_7d_click",
+  "targetowanie_obecnie": {
+   "kraj": "PL",
+   "wiek": "18-65",
+   "plec": "wszystkie",
+   "jezyk": "brak ograniczenia",
+   "advantage_audience": "ON",
+   "placementy": "automatyczne (Facebook + Instagram + Audience Network)",
+   "wykluczenia": [
+    "24.07 Wyklucza form (custom audience, 29 zrodel lead/ig_lead_generation, retencja 90 dni, zdarzenie lead_generation_submitted)"
+   ]
+  },
+  "grupy_niestandardowe_wlaczone": "brak",
+  "lookalike": "brak",
+  "harmonogram": "ciagly, bez dayparting",
+  "szacowana_wielkosc_grupy": "BRAK DANYCH - niedostepne przez MCP"
+ },
+ "os_czasu": {
+  "start_kampanii": "2026-05-27 15:37 (Europe/Warsaw)",
+  "wylaczenie_kampanii": "2026-06-24 12:30 (kampania) / 2026-06-24 16:16 (zestaw)",
+  "ostatni_dzien_emisji_przed_przerwa": "2026-06-24 (czesciowy, 47,17 PLN)",
+  "ponowne_uruchomienie": "2026-07-28 17:42 (kampania) / 2026-07-28 17:49 (zestaw)",
+  "dlugosc_przerwy": "33 dni 5 godzin 12 minut (od 2026-06-24 12:30 do 2026-07-28 17:42); dni bez jakiejkolwiek emisji: 33 (2026-06-25..2026-07-27)",
+  "zmiany_dzisiaj_2026-08-03": [
+   "11:57 zdarzenie optymalizacyjne Conversion leads -> Leads (aplikacja: 'ads MCP server')",
+   "11:58 targetowanie: usunieto wiek 35-60, plec meska i jezyk polski (aplikacja: 'ads MCP server')",
+   "11:59 zestaw ponownie Active"
+  ]
+ },
+ "okresy": {
+  "A_pierwsze_7d_po_starcie_2026-05-27..2026-06-02": {
+   "dni": 7,
+   "spend": 765.24,
+   "impr": 15424,
+   "clicks": 266,
+   "link_clicks": 93,
+   "leads": 24,
+   "cpm": 49.6136,
+   "ctr_all": 1.7246,
+   "ctr_link": 0.603,
+   "cpc_all": 2.8768,
+   "cpc_link": 8.2284,
+   "cvr": 25.8065,
+   "cpl": 31.885
+  },
+  "B_stabilne_14d_przed_wylaczeniem_2026-06-10..2026-06-23": {
+   "dni": 14,
+   "spend": 1896.97,
+   "impr": 35280,
+   "clicks": 623,
+   "link_clicks": 199,
+   "leads": 40,
+   "cpm": 53.769,
+   "ctr_all": 1.7659,
+   "ctr_link": 0.5641,
+   "cpc_all": 3.0449,
+   "cpc_link": 9.5325,
+   "cvr": 20.1005,
+   "cpl": 47.4243
+  },
+  "C_stabilne_7d_przed_wylaczeniem_2026-06-13..2026-06-19": {
+   "dni": 7,
+   "spend": 992.68,
+   "impr": 18401,
+   "clicks": 320,
+   "link_clicks": 104,
+   "leads": 26,
+   "cpm": 53.9471,
+   "ctr_all": 1.739,
+   "ctr_link": 0.5652,
+   "cpc_all": 3.1021,
+   "cpc_link": 9.545,
+   "cvr": 25.0,
+   "cpl": 38.18
+  },
+  "E_poprzednie_7_pelnych_dni_2026-07-20..2026-07-26": {
+   "dni": 0,
+   "spend": 0,
+   "impr": 0,
+   "clicks": 0,
+   "link_clicks": 0,
+   "leads": 0,
+   "cpm": null,
+   "ctr_all": null,
+   "ctr_link": null,
+   "cpc_all": null,
+   "cpc_link": null,
+   "cvr": null,
+   "cpl": null
+  },
+  "D_ostatnie_7_pelnych_dni_2026-07-27..2026-08-02": {
+   "dni": 6,
+   "spend": 1040.57,
+   "impr": 16484,
+   "clicks": 254,
+   "link_clicks": 88,
+   "leads": 3,
+   "cpm": 63.1261,
+   "ctr_all": 1.5409,
+   "ctr_link": 0.5339,
+   "cpc_all": 4.0967,
+   "cpc_link": 11.8247,
+   "cvr": 3.4091,
+   "cpl": 346.8567
+  },
+  "F1_pierwsze_24h_po_restarcie_2026-07-28": {
+   "dni": 1,
+   "spend": 45.53,
+   "impr": 715,
+   "clicks": 9,
+   "link_clicks": 3,
+   "leads": 0,
+   "cpm": 63.6783,
+   "ctr_all": 1.2587,
+   "ctr_link": 0.4196,
+   "cpc_all": 5.0589,
+   "cpc_link": 15.1767,
+   "cvr": 0.0,
+   "cpl": null
+  },
+  "F2_pierwsze_48h_po_restarcie_2026-07-28..2026-07-29": {
+   "dni": 2,
+   "spend": 292.88,
+   "impr": 4948,
+   "clicks": 78,
+   "link_clicks": 24,
+   "leads": 2,
+   "cpm": 59.1916,
+   "ctr_all": 1.5764,
+   "ctr_link": 0.485,
+   "cpc_all": 3.7549,
+   "cpc_link": 12.2033,
+   "cvr": 8.3333,
+   "cpl": 146.44
+  },
+  "F3_pierwsze_3_dni_po_restarcie_2026-07-28..2026-07-30": {
+   "dni": 3,
+   "spend": 452.51,
+   "impr": 7801,
+   "clicks": 134,
+   "link_clicks": 44,
+   "leads": 2,
+   "cpm": 58.0067,
+   "ctr_all": 1.7177,
+   "ctr_link": 0.564,
+   "cpc_all": 3.3769,
+   "cpc_link": 10.2843,
+   "cvr": 4.5455,
+   "cpl": 226.255
+  },
+  "F4_od_restartu_do_wczoraj_2026-07-28..2026-08-02": {
+   "dni": 6,
+   "spend": 1040.57,
+   "impr": 16484,
+   "clicks": 254,
+   "link_clicks": 88,
+   "leads": 3,
+   "cpm": 63.1261,
+   "ctr_all": 1.5409,
+   "ctr_link": 0.5339,
+   "cpc_all": 4.0967,
+   "cpc_link": 11.8247,
+   "cvr": 3.4091,
+   "cpl": 346.8567
+  },
+  "G_ostatnie_30_dni_2026-07-04..2026-08-02": {
+   "dni": 6,
+   "spend": 1040.57,
+   "impr": 16484,
+   "clicks": 254,
+   "link_clicks": 88,
+   "leads": 3,
+   "cpm": 63.1261,
+   "ctr_all": 1.5409,
+   "ctr_link": 0.5339,
+   "cpc_all": 4.0967,
+   "cpc_link": 11.8247,
+   "cvr": 3.4091,
+   "cpl": 346.8567
+  },
+  "H_cala_historia_2026-05-27..2026-08-02_bez_dzis": {
+   "dni": 35,
+   "spend": 4526.33,
+   "impr": 84394,
+   "clicks": 1383,
+   "link_clicks": 479,
+   "leads": 81,
+   "cpm": 53.6333,
+   "ctr_all": 1.6387,
+   "ctr_link": 0.5676,
+   "cpc_all": 3.2728,
+   "cpc_link": 9.4495,
+   "cvr": 16.9102,
+   "cpl": 55.8806
+  },
+  "I_dzis_NIEPELNY_2026-08-03": {
+   "dni": 1,
+   "spend": 242.98,
+   "impr": 3177,
+   "clicks": 63,
+   "link_clicks": 19,
+   "leads": 0,
+   "cpm": 76.481,
+   "ctr_all": 1.983,
+   "ctr_link": 0.598,
+   "cpc_all": 3.8568,
+   "cpc_link": 12.7884,
+   "cvr": 0.0,
+   "cpl": null
+  }
+ },
+ "dekompozycja_CPL_baza_2026-06-13_19_vs_2026-07-27_08-02": {
+  "metoda": "CPL = CPM/1000 / (CTR_linku * konwersja_klik_do_leada), dekompozycja logarytmiczna",
+  "CPM": {
+   "baza_pln": 53.95,
+   "teraz_pln": 63.13,
+   "zmiana_proc": 17.0,
+   "udzial_w_zmianie_CPL_proc": 7.1
+  },
+  "CTR_linku": {
+   "baza_proc": 0.565,
+   "teraz_proc": 0.534,
+   "zmiana_proc": -5.5,
+   "udzial_w_zmianie_CPL_proc": 2.6
+  },
+  "konwersja_klik_do_leada": {
+   "baza_proc": 25.0,
+   "teraz_proc": 3.4,
+   "zmiana_proc": -86.4,
+   "udzial_w_zmianie_CPL_proc": 90.3
+  },
+  "CPL": {
+   "baza_pln": 38.18,
+   "teraz_pln": 346.86,
+   "zmiana_proc": 808.5
+  }
+ },
+ "breakdowny_2026-07-28_do_2026-08-02": {
+  "platforma": [
+   {
+    "platforma": "facebook",
+    "wydatek_pln": 780.05,
+    "wyswietlenia": 12206,
+    "zasieg": 4922,
+    "czestotliwosc": 2.48,
+    "cpm_pln": 63.91,
+    "klikniecia": 210,
+    "ctr_proc": 1.72,
+    "klikniecia_linku": 62,
+    "leady": 3,
+    "cpl_pln": 260.02
+   },
+   {
+    "platforma": "instagram",
+    "wydatek_pln": 260.52,
+    "wyswietlenia": 4278,
+    "zasieg": 1909,
+    "czestotliwosc": 2.24,
+    "cpm_pln": 60.9,
+    "klikniecia": 44,
+    "ctr_proc": 1.03,
+    "klikniecia_linku": 26,
+    "leady": 0,
+    "cpl_pln": null
+   }
+  ],
+  "placement": [
+   {
+    "placement": "feed",
+    "wydatek_pln": 528.13,
+    "wyswietlenia": 8843,
+    "ctr_proc": 1.97,
+    "klikniecia_linku": 41,
+    "leady": 2,
+    "cpl_pln": 264.07
+   },
+   {
+    "placement": "facebook_reels",
+    "wydatek_pln": 245.52,
+    "wyswietlenia": 3111,
+    "ctr_proc": 1.0,
+    "klikniecia_linku": 19,
+    "leady": 1,
+    "cpl_pln": 245.52
+   },
+   {
+    "placement": "instagram_stories",
+    "wydatek_pln": 120.29,
+    "wyswietlenia": 2102,
+    "ctr_proc": 1.05,
+    "klikniecia_linku": 13,
+    "leady": 0,
+    "cpl_pln": null
+   },
+   {
+    "placement": "instagram_reels",
+    "wydatek_pln": 70.83,
+    "wyswietlenia": 1248,
+    "ctr_proc": 1.44,
+    "klikniecia_linku": 12,
+    "leady": 0,
+    "cpl_pln": null
+   },
+   {
+    "placement": "facebook_stories",
+    "wydatek_pln": 61.92,
+    "wyswietlenia": 852,
+    "ctr_proc": 0.82,
+    "klikniecia_linku": 3,
+    "leady": 0,
+    "cpl_pln": null
+   },
+   {
+    "placement": "instream_video",
+    "wydatek_pln": 8.2,
+    "wyswietlenia": 88,
+    "ctr_proc": 1.14,
+    "leady": 0
+   },
+   {
+    "placement": "facebook_reels_overlay",
+    "wydatek_pln": 2.06,
+    "wyswietlenia": 111,
+    "ctr_proc": 0.0,
+    "leady": 0
+   },
+   {
+    "placement": "facebook_profile_feed",
+    "wydatek_pln": 2.01,
+    "wyswietlenia": 66,
+    "ctr_proc": 1.52,
+    "leady": 0
+   },
+   {
+    "placement": "marketplace",
+    "wydatek_pln": 1.36,
+    "wyswietlenia": 45,
+    "ctr_proc": 0.0,
+    "leady": 0
+   },
+   {
+    "placement": "instagram_explore_grid_home",
+    "wydatek_pln": 0.25,
+    "wyswietlenia": 16,
+    "ctr_proc": 0.0,
+    "leady": 0
+   },
+   {
+    "placement": "search",
+    "wydatek_pln": 0.0,
+    "wyswietlenia": 2,
+    "ctr_proc": 0.0,
+    "leady": 0
+   }
+  ],
+  "urzadzenie": [
+   {
+    "urzadzenie": "android_smartphone",
+    "wydatek_pln": 588.62,
+    "wyswietlenia": 7576,
+    "cpm_pln": 77.7,
+    "ctr_proc": 1.62,
+    "klikniecia_linku": 34,
+    "leady": 1,
+    "cpl_pln": 588.62
+   },
+   {
+    "urzadzenie": "iphone",
+    "wydatek_pln": 449.13,
+    "wyswietlenia": 8864,
+    "cpm_pln": 50.67,
+    "ctr_proc": 1.48,
+    "klikniecia_linku": 54,
+    "leady": 2,
+    "cpl_pln": 224.57
+   },
+   {
+    "urzadzenie": "ipad",
+    "wydatek_pln": 1.83,
+    "wyswietlenia": 28,
+    "leady": 0
+   },
+   {
+    "urzadzenie": "android_tablet",
+    "wydatek_pln": 0.96,
+    "wyswietlenia": 15,
+    "leady": 0
+   },
+   {
+    "urzadzenie": "other",
+    "wydatek_pln": 0.03,
+    "wyswietlenia": 1,
+    "leady": 0
+   }
+  ],
+  "wiek": [
+   {
+    "wiek": "18-24",
+    "wydatek_pln": 122.23,
+    "wyswietlenia": 3247,
+    "cpm_pln": 37.64,
+    "ctr_proc": 1.79,
+    "klikniecia_linku": 22,
+    "leady": 1,
+    "cpl_pln": 122.23
+   },
+   {
+    "wiek": "25-34",
+    "wydatek_pln": 292.34,
+    "wyswietlenia": 6264,
+    "cpm_pln": 46.67,
+    "ctr_proc": 1.5,
+    "klikniecia_linku": 29,
+    "leady": 1,
+    "cpl_pln": 292.34
+   },
+   {
+    "wiek": "35-44",
+    "wydatek_pln": 286.06,
+    "wyswietlenia": 4244,
+    "cpm_pln": 67.4,
+    "ctr_proc": 1.23,
+    "klikniecia_linku": 20,
+    "leady": 0,
+    "cpl_pln": null
+   },
+   {
+    "wiek": "45-54",
+    "wydatek_pln": 256.37,
+    "wyswietlenia": 1962,
+    "cpm_pln": 130.67,
+    "ctr_proc": 1.89,
+    "klikniecia_linku": 11,
+    "leady": 1,
+    "cpl_pln": 256.37
+   },
+   {
+    "wiek": "55-64",
+    "wydatek_pln": 54.49,
+    "wyswietlenia": 575,
+    "cpm_pln": 94.77,
+    "ctr_proc": 1.74,
+    "klikniecia_linku": 6,
+    "leady": 0,
+    "cpl_pln": null
+   },
+   {
+    "wiek": "65+",
+    "wydatek_pln": 29.08,
+    "wyswietlenia": 192,
+    "cpm_pln": 151.46,
+    "ctr_proc": 1.56,
+    "leady": 0,
+    "cpl_pln": null
+   }
+  ],
+  "plec": [
+   {
+    "plec": "male",
+    "wydatek_pln": 853.62,
+    "wyswietlenia": 13876,
+    "cpm_pln": 61.52,
+    "ctr_proc": 1.48,
+    "klikniecia_linku": 68,
+    "leady": 3,
+    "cpl_pln": 284.54
+   },
+   {
+    "plec": "female",
+    "wydatek_pln": 182.03,
+    "wyswietlenia": 2534,
+    "cpm_pln": 71.84,
+    "ctr_proc": 1.89,
+    "klikniecia_linku": 20,
+    "leady": 0,
+    "cpl_pln": null
+   },
+   {
+    "plec": "unknown",
+    "wydatek_pln": 4.92,
+    "wyswietlenia": 74,
+    "leady": 0
+   }
+  ],
+  "region_top": [
+   {
+    "region": "Masovian",
+    "wydatek_pln": 224.84,
+    "wyswietlenia": 3317,
+    "ctr_proc": 1.42,
+    "leady": 0
+   },
+   {
+    "region": "Silesian",
+    "wydatek_pln": 128.73,
+    "wyswietlenia": 1929,
+    "ctr_proc": 1.92,
+    "leady": 0
+   },
+   {
+    "region": "Lesser Poland",
+    "wydatek_pln": 125.68,
+    "wyswietlenia": 1818,
+    "ctr_proc": 1.71,
+    "leady": 0
+   },
+   {
+    "region": "Greater Poland",
+    "wydatek_pln": 90.63,
+    "wyswietlenia": 1694,
+    "ctr_proc": 1.71,
+    "leady": 0
+   },
+   {
+    "region": "Lower Silesian",
+    "wydatek_pln": 87.03,
+    "wyswietlenia": 1490,
+    "ctr_proc": 1.48,
+    "leady": 0
+   },
+   {
+    "region": "Pomeranian",
+    "wydatek_pln": 65.77,
+    "wyswietlenia": 1002,
+    "ctr_proc": 1.8,
+    "leady": 0
+   },
+   {
+    "region": "Lodz",
+    "wydatek_pln": 50.45,
+    "wyswietlenia": 833,
+    "ctr_proc": 1.68,
+    "leady": 0
+   },
+   {
+    "region": "West Pomeranian",
+    "wydatek_pln": 43.66,
+    "wyswietlenia": 473,
+    "ctr_proc": 1.48,
+    "leady": 0
+   },
+   {
+    "region": "Lublin",
+    "wydatek_pln": 41.68,
+    "wyswietlenia": 603,
+    "ctr_proc": 1.49,
+    "leady": 0
+   },
+   {
+    "region": "Podkarpackie",
+    "wydatek_pln": 38.81,
+    "wyswietlenia": 756,
+    "ctr_proc": 0.66,
+    "leady": 0
+   },
+   {
+    "region": "Lubusz",
+    "wydatek_pln": 33.43,
+    "wyswietlenia": 302,
+    "ctr_proc": 1.99,
+    "leady": 0
+   },
+   {
+    "region": "Kuyavian-Pomeranian",
+    "wydatek_pln": 32.2,
+    "wyswietlenia": 765,
+    "ctr_proc": 0.92,
+    "leady": 0
+   },
+   {
+    "region": "Podlaskie",
+    "wydatek_pln": 26.6,
+    "wyswietlenia": 384,
+    "ctr_proc": 1.04,
+    "leady": 0
+   },
+   {
+    "region": "Warmian-Masurian",
+    "wydatek_pln": 22.85,
+    "wyswietlenia": 462,
+    "ctr_proc": 1.52,
+    "leady": 0
+   },
+   {
+    "region": "Swietokrzyskie",
+    "wydatek_pln": 16.95,
+    "wyswietlenia": 384,
+    "ctr_proc": 0.78,
+    "leady": 0
+   },
+   {
+    "region": "Opole",
+    "wydatek_pln": 11.07,
+    "wyswietlenia": 260,
+    "ctr_proc": 3.08,
+    "leady": 0
+   },
+   {
+    "region": "Unknown",
+    "wydatek_pln": 0.19,
+    "wyswietlenia": 12,
+    "leady": 0
+   }
+  ],
+  "uwaga_leady_w_breakdownach": "Suma leadow w breakdownach = 3 i zgadza sie z suma dzienna. Wiersze 'Not available' oznaczaja 0 leadow w danym segmencie, nie brak pomiaru."
+ },
+ "inne_kampanie_konkurujace_na_koncie": [
+  {
+   "id": "120253093638530581",
+   "nazwa": "Kampania leadowa KM 09.07",
+   "cel": "OUTCOME_LEADS",
+   "status": "PAUSED",
+   "wydatek_lifetime_pln": 2135.22,
+   "leady": 9,
+   "cpl_pln": 237.25,
+   "okres": "09.07-24.07 (w trakcie przerwy LeadGen 27.05)"
+  },
+  {
+   "id": "120253507559610581",
+   "nazwa": "24.07 LEAD-GEN MOJA",
+   "cel": "OUTCOME_LEADS",
+   "status": "PAUSED",
+   "wydatek_lifetime_pln": 435.07,
+   "leady": 2,
+   "cpl_pln": 217.54,
+   "okres": "24.07-28.07"
+  },
+  {
+   "id": "120253549040820581",
+   "nazwa": "Kampania TEST LEAD 26.07",
+   "cel": "OUTCOME_LEADS",
+   "status": "PAUSED",
+   "wydatek_lifetime_pln": 153.78,
+   "leady": 1,
+   "cpl_pln": 153.78,
+   "okres": "26.07-28.07"
+  },
+  {
+   "id": "120253594029760581",
+   "nazwa": "28.07 test LeadGen",
+   "cel": "OUTCOME_LEADS",
+   "status": "PAUSED",
+   "wydatek_lifetime_pln": 23.87,
+   "leady": 0,
+   "okres": "28.07"
+  },
+  {
+   "id": "120252985889790581",
+   "nazwa": "Sprzedaz szkolenie Claude",
+   "cel": "OUTCOME_SALES",
+   "status": "ACTIVE",
+   "wydatek_lifetime_pln": 2654.09,
+   "uwaga": "AKTYWNA rownolegle - konkuruje o te sama polska grupe i budzet konta"
+  },
+  {
+   "id": "120253604020520581",
+   "nazwa": "REM KURS SPRZEDAZ",
+   "cel": "OUTCOME_SALES",
+   "status": "ACTIVE",
+   "wydatek_lifetime_pln": 131.83,
+   "uwaga": "AKTYWNA rownolegle (remarketing)"
+  }
+ ],
+ "braki_danych": [
+  "Quality ranking / Engagement rate ranking / Conversion rate ranking - pole niedostepne w katalogu pol Meta Ads MCP",
+  "Otwarcia formularza, rozpoczecia formularza, ukonczenia formularza - metryki niedostepne w katalogu pol MCP; dostepne tylko 'lead' (ukonczenia)",
+  "ID formularza blyskawicznego, pytania, ekrany powitalny/koncowy, logika warunkowa, polityka prywatnosci - brak narzedzia MCP do odczytu Lead Gen Forms",
+  "Status fazy uczenia / learning limited - pole delivery_sub_status nie zwrocilo wartosci",
+  "Szacowana wielkosc grupy odbiorcow i nakladanie sie grup - niedostepne przez MCP",
+  "Negatywne reakcje, ukrycia reklamy - metryki niedostepne w katalogu pol MCP",
+  "Limit wydatkow konta i limity rozliczeniowe - niedostepne przez MCP (widoczne tylko zdarzenia obciazenia i statusu konta)",
+  "Weryfikacja firmy, domena, Pixel/dataset - poza zakresem tej kampanii (Instant Form, bez ruchu na strone)",
+  "Wszystkie dane CRM/sprzedazowe: jakosc leadow, duplikaty, contact rate, czas pierwszego kontaktu, qualified rate, CPQL, umowione rozmowy, show rate, klienci, close rate, CAC, przychod, marza, ROAS - nie dostarczono zadnego zrodla CRM/arkusza",
+  "Breakdown wg systemu operacyjnego - nieobslugiwany osobno (dostepne tylko impression_device)"
+ ]
+}
