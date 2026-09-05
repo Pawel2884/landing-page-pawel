@@ -1,0 +1,5 @@
+node_modules/
+.remotion/
+out/*.png
+# Podklad muzyczny i efekty sa generowane: node tools/make-audio.mjs
+public/audio/*.wav
