@@ -10,6 +10,7 @@ Projekt Remotion, z ktorego powstaje plik `out/homevo-elewacja-60s.mp4`.
 ## Uruchomienie
 ```bash
 npm install
+node tools/build-timeline.mjs    # liczy os czasu z dlugosci plikow lektora
 node tools/make-audio.mjs        # generuje muzyke i efekty do public/audio
 npm run render
 ```
@@ -23,14 +24,17 @@ Podglad na zywo: `npx remotion studio src/index.ts`.
 
 ## Struktura
 - `src/theme.ts` — paleta, siatka, strefy bezpieczne pod nakladki Reels
-- `src/script.ts` — os czasu: momenty startu lektora, napisy, granice scen
+- `tools/build-timeline.mjs` — liczy cala os czasu z realnych dlugosci lektora
+- `src/timeline.json` — wynik tego kroku: starty lektora, napisy, sceny, efekty
+- `src/script.ts` — typy i re-eksport osi czasu
 - `src/ui.tsx` — warstwa zdjeciowa, naglowki, napisy, ikony wektorowe, font
 - `src/Video.tsx` — trzynascie scen skladajacych sie na film
 - `tools/make-audio.mjs` — syntezator podkladu i efektow dzwiekowych
 
 ## Zasoby
-- `public/vo/v1..v9.wav` — lektor PL, ElevenLabs, glos Ryszard, po przycieciu ciszy
-  i normalizacji do -16 LUFS. Pliki `vo*.mp3` to material zrodlowy.
+- `public/vo/v1..v9.wav` — lektor PL, ElevenLabs, glos Adam (hIssydxXZ1WuDorjx6Ic),
+  model eleven_multilingual_v2, po przycieciu ciszy i normalizacji do -16 LUFS.
+  Pliki `vo*.mp3` to material zrodlowy prosto z generatora.
 - `public/img/*.png` — ujecia wygenerowane (2048 x 1152). Sa oznaczone w filmie
   jako wizualizacja i nie moga byc podpisywane jako realizacje klienta.
 - `public/audio/music.wav`, `public/audio/sfx.wav` — wygenerowane w tym projekcie,
@@ -43,5 +47,6 @@ Podglad na zywo: `npx remotion studio src/index.ts`.
   Po wgraniu pliku logo do `public/img/` mozna go tam podstawic.
 - Stawka, gwarancja i nazwy materialow pochodza ze screena kampanii i siedza
   w `src/Video.tsx` w scenach `Price` i `Specs`.
-- Zmiana tekstu lektora wymaga ponownej generacji glosu, zmierzenia dlugosci
-  plikow i aktualizacji tablicy `VO` w `src/script.ts`.
+- Zmiana lektora: podmien pliki `public/vo/vo1..vo9.mp3`, przetnij cisze i znormalizuj
+  do `v1..v9.wav`, potem uruchom `node tools/build-timeline.mjs` i `node tools/make-audio.mjs`.
+  Montaz, napisy i efekty przeliczaja sie same pod nowe dlugosci.

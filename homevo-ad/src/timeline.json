@@ -1,0 +1,337 @@
+{
+  "fps": 30,
+  "total": 1800,
+  "vo": [
+    {
+      "file": "vo/v1.wav",
+      "from": 9,
+      "dur": 109
+    },
+    {
+      "file": "vo/v2.wav",
+      "from": 143,
+      "dur": 217
+    },
+    {
+      "file": "vo/v3.wav",
+      "from": 390,
+      "dur": 153
+    },
+    {
+      "file": "vo/v4.wav",
+      "from": 563,
+      "dur": 126
+    },
+    {
+      "file": "vo/v5.wav",
+      "from": 719,
+      "dur": 269
+    },
+    {
+      "file": "vo/v6.wav",
+      "from": 1013,
+      "dur": 138
+    },
+    {
+      "file": "vo/v7.wav",
+      "from": 1180,
+      "dur": 167
+    },
+    {
+      "file": "vo/v8.wav",
+      "from": 1377,
+      "dur": 116
+    },
+    {
+      "file": "vo/v9.wav",
+      "from": 1523,
+      "dur": 158
+    }
+  ],
+  "caps": [
+    {
+      "a": 9,
+      "b": 78,
+      "text": "Umawiasz się na jedną cenę za elewację.",
+      "hi": "jedną cenę"
+    },
+    {
+      "a": 78,
+      "b": 132,
+      "text": "Potem pojawia się dopłata.",
+      "hi": "dopłata"
+    },
+    {
+      "a": 143,
+      "b": 182,
+      "text": "Jeśli planujesz docieplenie domu,",
+      "hi": "docieplenie domu"
+    },
+    {
+      "a": 182,
+      "b": 241,
+      "text": "zostaw zgłoszenie i poznaj swoją cenę.",
+      "hi": "swoją cenę"
+    },
+    {
+      "a": 241,
+      "b": 319,
+      "text": "Za chwilę pokażę ci, po czym poznać wycenę,"
+    },
+    {
+      "a": 319,
+      "b": 373,
+      "text": "która się nie zmieni.",
+      "hi": "nie zmieni"
+    },
+    {
+      "a": 390,
+      "b": 422,
+      "text": "Najpierw doliczają materiał.",
+      "hi": "materiał"
+    },
+    {
+      "a": 422,
+      "b": 444,
+      "text": "Potem rusztowanie.",
+      "hi": "rusztowanie"
+    },
+    {
+      "a": 444,
+      "b": 477,
+      "text": "Na końcu robotę,"
+    },
+    {
+      "a": 477,
+      "b": 554,
+      "text": "o której nikt wcześniej nie mówił.",
+      "hi": "nikt wcześniej nie mówił"
+    },
+    {
+      "a": 563,
+      "b": 598,
+      "text": "Ekipa znika na tydzień.",
+      "hi": "znika"
+    },
+    {
+      "a": 598,
+      "b": 634,
+      "text": "Dom stoi w rusztowaniu."
+    },
+    {
+      "a": 634,
+      "b": 702,
+      "text": "A ty liczysz, ile jeszcze zapłacisz.",
+      "hi": "ile jeszcze zapłacisz"
+    },
+    {
+      "a": 719,
+      "b": 790,
+      "text": "Home Evolution robi to inaczej.",
+      "hi": "inaczej"
+    },
+    {
+      "a": 790,
+      "b": 888,
+      "text": "Konkretną cenę poznajesz przed rozpoczęciem prac.",
+      "hi": "przed rozpoczęciem prac"
+    },
+    {
+      "a": 888,
+      "b": 1002,
+      "text": "220 zł netto za metr kwadratowy.",
+      "hi": "220 zł netto"
+    },
+    {
+      "a": 1013,
+      "b": 1047,
+      "text": "Styropian Termoorganika.",
+      "hi": "Termoorganika"
+    },
+    {
+      "a": 1047,
+      "b": 1098,
+      "text": "Tynk Raum Premium.",
+      "hi": "Raum Premium"
+    },
+    {
+      "a": 1098,
+      "b": 1164,
+      "text": "Dwa lata gwarancji.",
+      "hi": "Dwa lata"
+    },
+    {
+      "a": 1180,
+      "b": 1262,
+      "text": "Przez całą realizację masz swojego opiekuna kontraktu.",
+      "hi": "opiekuna kontraktu"
+    },
+    {
+      "a": 1262,
+      "b": 1360,
+      "text": "45% umów pochodzi z poleceń.",
+      "hi": "45%"
+    },
+    {
+      "a": 1377,
+      "b": 1425,
+      "text": "Po czym poznać dobrą wycenę?"
+    },
+    {
+      "a": 1425,
+      "b": 1506,
+      "text": "Cena z wyceny zostaje ceną na fakturze.",
+      "hi": "ceną na fakturze"
+    }
+  ],
+  "scenes": {
+    "hook": [
+      0,
+      137
+    ],
+    "ident": [
+      137,
+      241
+    ],
+    "tease": [
+      241,
+      384
+    ],
+    "costs": [
+      384,
+      557
+    ],
+    "stalled": [
+      557,
+      713
+    ],
+    "turn": [
+      713,
+      799
+    ],
+    "promise": [
+      799,
+      893
+    ],
+    "price": [
+      893,
+      1007
+    ],
+    "specs": [
+      1007,
+      1174
+    ],
+    "care": [
+      1174,
+      1263
+    ],
+    "ref": [
+      1263,
+      1371
+    ],
+    "payoff": [
+      1371,
+      1517
+    ],
+    "cta": [
+      1517,
+      1800
+    ]
+  },
+  "sfx": [
+    {
+      "k": "thud",
+      "t": 0,
+      "amp": 0.26
+    },
+    {
+      "k": "whoosh",
+      "t": 4.567,
+      "amp": 0.2
+    },
+    {
+      "k": "whoosh",
+      "t": 8.033,
+      "amp": 0.15
+    },
+    {
+      "k": "whoosh",
+      "t": 12.8,
+      "amp": 0.2
+    },
+    {
+      "k": "click",
+      "t": 13.167
+    },
+    {
+      "k": "click",
+      "t": 14.433
+    },
+    {
+      "k": "click",
+      "t": 15.7
+    },
+    {
+      "k": "whoosh",
+      "t": 18.567,
+      "amp": 0.16
+    },
+    {
+      "k": "whoosh",
+      "t": 23.767,
+      "amp": 0.24
+    },
+    {
+      "k": "thud",
+      "t": 26.633,
+      "amp": 0.18
+    },
+    {
+      "k": "thud",
+      "t": 29.767,
+      "amp": 0.2
+    },
+    {
+      "k": "whoosh",
+      "t": 33.567,
+      "amp": 0.15
+    },
+    {
+      "k": "click",
+      "t": 33.8
+    },
+    {
+      "k": "click",
+      "t": 35.267
+    },
+    {
+      "k": "click",
+      "t": 36.733
+    },
+    {
+      "k": "whoosh",
+      "t": 39.133,
+      "amp": 0.15
+    },
+    {
+      "k": "thud",
+      "t": 42.1,
+      "amp": 0.16
+    },
+    {
+      "k": "whoosh",
+      "t": 45.7,
+      "amp": 0.18
+    },
+    {
+      "k": "confirm",
+      "t": 47.6,
+      "amp": 0.1
+    },
+    {
+      "k": "whoosh",
+      "t": 50.567,
+      "amp": 0.22
+    }
+  ]
+}

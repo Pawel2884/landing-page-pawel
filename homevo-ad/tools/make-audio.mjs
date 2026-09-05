@@ -186,24 +186,14 @@ const confirm = (t, amp = 0.10) => {
   });
 };
 
-// znaczniki zgodne z montazem (sekundy)
-thud(0.00, 0.26);            // uderzenie hooka
-whoosh(4.55);                // wejscie sceny 2
-whoosh(9.30, 0.15);          // podscena 2b
-whoosh(13.95);               // scena problemu
-click(14.20); click(15.60); click(17.00);
-whoosh(20.55, 0.16);
-whoosh(26.15, 0.24);         // przejscie do rozwiazania
-thud(28.90, 0.18);
-thud(32.05, 0.20);           // wejscie ceny
-whoosh(36.10, 0.15);
-click(36.35); click(37.95); click(39.35);
-whoosh(40.90, 0.15);
-thud(44.30, 0.16);           // wejscie 45%
-whoosh(47.20, 0.18);
-confirm(49.30);              // domkniecie obietnicy: wycena = faktura
-whoosh(52.50, 0.22);         // plansza koncowa
-click(54.60, 0.07, 1100);
+// Znaczniki biore wprost z osi czasu montazu, wiec nie moga sie rozjechac.
+const timeline = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, '..', 'src', 'timeline.json'), 'utf8'));
+for (const e of timeline.sfx) {
+  if (e.k === 'whoosh') whoosh(e.t, e.amp ?? 0.20);
+  else if (e.k === 'click') click(e.t, e.amp ?? 0.09);
+  else if (e.k === 'thud') thud(e.t, e.amp ?? 0.20);
+  else if (e.k === 'confirm') confirm(e.t, e.amp ?? 0.10);
+}
 
 for (let i = 0; i < N; i++) {
   SL[i] = Math.tanh(SL[i] * 1.1) * 0.85;

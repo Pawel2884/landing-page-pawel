@@ -356,24 +356,28 @@ const Cta: React.FC = () => {
       <Wordmark at={2} top={296} size={44} />
       <HeadLine at={8} top={398} size={33} color="rgba(255,255,255,0.78)" weight={800}
         text="DOCIEPLENIE I ELEWACJA DOMU" />
-      <div style={{position: 'absolute', top: 476, left: 110, width: 860, height: 566, background: C.white,
+      <div style={{position: 'absolute', top: 468, left: 110, width: 860, height: 592, background: C.white,
         borderRadius: 32, opacity: card.o, transform: `translateY(${card.y}px)`,
         boxShadow: '0 34px 90px rgba(0,0,0,0.55)'}}>
         <div style={{position: 'absolute', top: 38, left: 40, width: 780, textAlign: 'left'}}>
           <div style={{...base, color: C.navy, fontSize: 42, fontWeight: 900, letterSpacing: -1}}>Bezpłatna wycena elewacji</div>
+          <div style={{...base, color: '#8C99AA', fontSize: 26, fontWeight: 700, letterSpacing: 2, marginTop: 6}}>FORMULARZ BŁYSKAWICZNY</div>
         </div>
-        <Field top={116} label="Imię" />
-        <Field top={206} label="Telefon" />
-        <Field top={296} label="Metraż domu (m²)" />
-        <div style={{position: 'absolute', top: 404, left: 40, width: 780, height: 104, background: C.amber,
+        <Field top={148} label="Imię" />
+        <Field top={238} label="Numer telefonu" />
+        <Field top={328} label="Adres e-mail" />
+        <div style={{position: 'absolute', top: 406, left: 40, width: 780, textAlign: 'left'}}>
+          <span style={{...base, color: '#8C99AA', fontSize: 28, fontWeight: 600}}>Trzy pola. Zajmuje kilka sekund.</span>
+        </div>
+        <div style={{position: 'absolute', top: 460, left: 40, width: 780, height: 104, background: C.amber,
           borderRadius: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
           transform: `scale(${btn})`, boxShadow: '0 12px 34px rgba(245,166,35,0.45)'}}>
-          <span style={{...base, color: C.navyDeep, fontSize: 44, fontWeight: 900, letterSpacing: 0.5}}>WYPEŁNIJ FORMULARZ</span>
+          <span style={{...base, color: C.navyDeep, fontSize: 44, fontWeight: 900, letterSpacing: 0.5}}>WYŚLIJ ZGŁOSZENIE</span>
         </div>
       </div>
-      <HeadLine at={40} top={1078} size={42} color={C.white} weight={700} lh={1.24}
+      <HeadLine at={40} top={1096} size={42} color={C.white} weight={700} lh={1.24}
         text="Dobierzemy zakres i wyliczymy cenę dla Twojego domu." />
-      <div style={{position: 'absolute', top: 1224, width: W, display: 'flex', justifyContent: 'center', gap: 16}}>
+      <div style={{position: 'absolute', top: 1238, width: W, display: 'flex', justifyContent: 'center', gap: 16}}>
         {['220 zł netto/m²', '2 lata gwarancji'].map((t, i) => {
           const e = useEnter(60 + i * 10);
           return (
@@ -383,7 +387,7 @@ const Cta: React.FC = () => {
           );
         })}
       </div>
-      <div style={{position: 'absolute', top: 1320 + bob, width: W, display: 'flex', justifyContent: 'center', color: C.amber}}>
+      <div style={{position: 'absolute', top: 1334 + bob, width: W, display: 'flex', justifyContent: 'center', color: C.amber}}>
         <IcoArrow dir="down" size={64} />
       </div>
       <VizTag />
